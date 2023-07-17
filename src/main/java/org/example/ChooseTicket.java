@@ -32,13 +32,14 @@ public class ChooseTicket{
         	TicketCollection.getAllTickets();
        
 	        System.out.println("\nEnter ID of ticket you want to choose:");
+			System.out.flush(); // 刷新输出缓冲区
 	        int ticket_id = in.nextInt();
 
-	        //validate ticker here
-//			ticket = TicketCollection.getTicketInfo(ticket_id);
-//			if (){
-//
-//			}
+	        //validate ticker here  验证是否选定的票有效
+			ticket = TicketCollection.getTicketInfo(ticket_id);
+			if (ticket.ticketStatus() == true){
+				throw new IllegalArgumentException("ticket is ordered by other people!");
+			}
 	        //buy ticket here
 	        buyTicket.buyTicket(ticket_id);
         }

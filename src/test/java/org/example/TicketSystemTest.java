@@ -11,6 +11,8 @@ import org.mockito.Mockito;
 
 import static org.mockito.Mockito.*;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.sql.Timestamp;
 
@@ -76,5 +78,22 @@ public class TicketSystemTest {
 //        Airplane airplane = mock(Airplane.class);
 //        when(dummyticket.getFlight()).thenReturn(new Flight(1, "Sydney", "Melbourne", "xxx", "XXX", dateFrom, dateTo, airplane));
         assertTrue(buyTicket.showTicket());
+    }
+    @Test
+    public void testChooseBookedTicket(){
+
+        Ticket dummyticket_booked = new Ticket(2,100,dummyflight,true,dummypassenger);
+        dummyticket_booked.setTicketStatus(true);
+
+        //创建空的ticketcollection 并addticket
+        ArrayList<Ticket> ticketslist = new ArrayList<>();
+        ticketslist.add(dummyticket_booked);
+        TicketCollection ticketCollection = new TicketCollection();
+        ticketCollection.addTickets(ticketslist);
+
+        ChooseTicket chooseTicket_booked = new ChooseTicket();
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+                chooseTicket_booked.chooseTicket("London", "NewYork");
+        });
     }
 }
