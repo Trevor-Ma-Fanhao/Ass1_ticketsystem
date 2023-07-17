@@ -9,8 +9,16 @@ public class Person //abstract class Person
     public Person(){}
 
     public Person(String firstName, String secondName, int age, String gender){
+
+//            if(age>=120 || age<=0)
+//            {
+//                throw new IllegalArgumentException("age should be between 0 and 120");
+//            }
+
+
+
         if (firstName == null || secondName == null || age == 0 ||gender == null) {
-            throw new IllegalArgumentException("parameter can't be null");
+            throw new IllegalArgumentException("age should be in 1-100");
         }
         if (!firstName.matches("[a-zA-Z]+") || !secondName.matches("[a-zA-Z]+")) {
             throw new IllegalArgumentException("firstName and secondName should only contain alphabets");

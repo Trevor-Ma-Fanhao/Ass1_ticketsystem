@@ -23,7 +23,7 @@ public class Passenger extends Person
 
         if (firstName == null || secondName == null || age == 0 ||gender == null ||
                 passport==null||cardNumber==null||securityCode <= 0) {
-            throw new IllegalArgumentException("parameter can't be null");
+            throw new IllegalArgumentException("age should be in 1-100");
         }
         if (!Pattern.matches(AUSTRALIAN_PHONE_REGEX,phoneNumber)){
             throw new IllegalArgumentException("phone number should be in format");

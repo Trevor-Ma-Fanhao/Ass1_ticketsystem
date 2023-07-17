@@ -15,6 +15,8 @@ public class TicketCollection {
 	}
 
 	public static void addTickets(ArrayList<Ticket> tickets_db) {
+		if (tickets_db == null)
+			throw new IllegalArgumentException("Ticket list cannot contain null");
 		TicketCollection.tickets.addAll(tickets_db);
 	}
 	

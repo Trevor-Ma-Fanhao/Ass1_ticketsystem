@@ -12,6 +12,7 @@ import org.mockito.Mockito;
 import static org.mockito.Mockito.*;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.sql.Timestamp;
@@ -26,6 +27,7 @@ import java.util.Scanner;
 public class TicketSystemTest {
 
     private Passenger dummypassenger;
+    private Passenger dummypassenger2;
     private Ticket dummyticket;
     private Flight dummyflight;
     private Airplane dummyairplane;
@@ -40,6 +42,8 @@ public class TicketSystemTest {
         dummyflight = new Flight(1,"NewYork","London","LN258","Airline",
                 Timestamp.valueOf(LocalDateTime.now().plusHours(1)),Timestamp.valueOf(LocalDateTime.now().plusDays(1)),dummyairplane);
         dummyticket = new Ticket(1,100,dummyflight,true,dummypassenger);
+
+
 
         //创建空的ticketcollection 并addticket
         ArrayList<Ticket> ticketslist = new ArrayList<>();
@@ -96,4 +100,46 @@ public class TicketSystemTest {
                 chooseTicket_booked.chooseTicket("London", "NewYork");
         });
     }
+
+
+    @Test
+    public void testBuyTicketWithValidPassenger() {
+
+
+        Throwable e = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            dummypassenger2 = new Passenger("Junjia", "Zhang", 0, "Man",
+                    "932952939@qq.com", "+61481888206", "6666", "6666", 888);
+            dummyticket = new Ticket(1,100,dummyflight,true,dummypassenger2);
+            ArrayList<Ticket> ticketList = new ArrayList<>();
+            ticketList.add(dummyticket);
+            TicketCollection.addTickets(ticketList);
+
+                BuyTicket buyTicket = new BuyTicket();
+                buyTicket.buyTicket(1);
+
+        });
+        assertEquals("age should be in 1-100", e.getMessage());
+
+    }
+
+    @Test
+    public void testBuyTicketWithInvalidFlightInfo() {
+        Throwable e = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+        dummypassenger2 = new Passenger("Junjia", "Zhang", 0, "Man",
+                "932952939@qq.com", "+61481888206", "6666", "6666", 888);
+        dummyticket = new Ticket(1,100,dummyflight,true,dummypassenger2);
+        ArrayList<Ticket> ticketList = new ArrayList<>();
+        ticketList.add(dummyticket);
+        TicketCollection.addTickets(ticketList);
+
+        BuyTicket buyTicket = new BuyTicket();
+        buyTicket.buyTicket(1);
+    });
+
+    }
+
+
+
+
 }
+

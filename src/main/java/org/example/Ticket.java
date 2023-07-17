@@ -35,12 +35,19 @@ public class Ticket
     public void setPrice(int price)
     {
         this.price = price;
+        if (price < 0) {
+            throw new IllegalArgumentException("Ticket price must be non-negative number");
+        }
         saleByAge(passenger.getAge()); //changes price of the ticket according to the age category of passenger
         serviceTax( ); //changes price by adding service tax to the ticket
     }
 
     public void saleByAge(int age)
     {
+        //add
+        if (age>=99 || age<=0)
+            throw new IllegalArgumentException("Age can only be within 1-98");
+
         int price = getPrice();
         if(age < 15)
         {
@@ -57,6 +64,9 @@ public class Ticket
     }
 
     public void setFlight(Flight flight) {
+        if (flight == null) {
+            throw new IllegalArgumentException("Ticket flight cannot be null");
+        }
         this.flight = flight;
     }
 
@@ -87,6 +97,9 @@ public class Ticket
     }
 
     public void setPassenger(Passenger passenger) {
+        if (passenger == null) {
+            throw new IllegalArgumentException("Ticket passenger cannot be null");
+        }
         this.passenger = passenger;
     }
 
