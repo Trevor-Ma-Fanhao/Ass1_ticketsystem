@@ -2,14 +2,17 @@ package org.example;
 
 import org.junit.jupiter.api.Test;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class FlightTest {
 
     private Airplane airplane = new Airplane(1, "Boeing 747", 10, 200, 5);
-    private Timestamp dateFrom = Timestamp.valueOf("2023-07-01 12:00:00");
-    private Timestamp dateTo = Timestamp.valueOf("2023-07-01 14:00:00");
-    private Flight flight = new Flight(1, "CityA", "CityB", "AB123", "Airline", dateFrom, dateTo, airplane);
+    private Timestamp dateFrom = Timestamp.valueOf("01/07/23 12:00:00");
+    private Timestamp dateTo = Timestamp.valueOf("01/07/23 14:00:00");
+
+    private Flight flight = new Flight(1, "Suzhou", "Shanghai", "AB123", "Airline", dateFrom, dateTo, airplane);
 
     @Test
     void getFlightID() {
@@ -27,28 +30,28 @@ class FlightTest {
 
     @Test
     void getDepartTo() {
-        String expectedDepartTo = "CityA";
+        String expectedDepartTo = "Suzhou";
         String actualDepartTo = flight.getDepartTo();
         assertEquals(expectedDepartTo, actualDepartTo);
     }
 
     @Test
     void setDepartTo() {
-        String newDepartTo = "CityC";
+        String newDepartTo = "Nanjing";
         flight.setDepartTo(newDepartTo);
         assertEquals(newDepartTo, flight.getDepartTo());
     }
 
     @Test
     void getDepartFrom() {
-        String expectedDepartFrom = "CityB";
+        String expectedDepartFrom = "Shanghai";
         String actualDepartFrom = flight.getDepartFrom();
         assertEquals(expectedDepartFrom, actualDepartFrom);
     }
 
     @Test
     void setDepartFrom() {
-        String newDepartFrom = "CityD";
+        String newDepartFrom = "Beijing";
         flight.setDepartFrom(newDepartFrom);
         assertEquals(newDepartFrom, flight.getDepartFrom());
     }
@@ -81,33 +84,46 @@ class FlightTest {
         assertEquals(newCompany, flight.getCompany());
     }
 
+
     @Test
     void getDateFrom() {
-        Timestamp expectedDateFrom = Timestamp.valueOf("2023-07-01 12:00:00");
+        String expectedDateFrom = "01/07/23 12:00:00";
         Timestamp actualDateFrom = flight.getDateFrom();
-        assertEquals(expectedDateFrom, actualDateFrom);
+        String formattedActualDateFrom = new SimpleDateFormat("dd/MM/yy HH:mm:ss").format(actualDateFrom);
+
+        assertEquals(expectedDateFrom, formattedActualDateFrom);
     }
 
     @Test
     void setDateFrom() {
+        String expectedDateFrom = "02/07/23 10:00:00";
         Timestamp newDateFrom = Timestamp.valueOf("2023-07-02 10:00:00");
         flight.setDateFrom(newDateFrom);
-        assertEquals(newDateFrom, flight.getDateFrom());
+
+        String formattedActualDateFrom = new SimpleDateFormat("dd/MM/yy HH:mm:ss").format(flight.getDateFrom());
+
+        assertEquals(expectedDateFrom, formattedActualDateFrom);
     }
+
 
     @Test
     void getDateTo() {
-        Timestamp expectedDateTo = Timestamp.valueOf("2023-07-01 14:00:00");
+        String expectedDateTo = "01/07/23 14:00:00";
         Timestamp actualDateTo = flight.getDateTo();
-        assertEquals(expectedDateTo, actualDateTo);
+        String formattedActualDateTo = new SimpleDateFormat("dd/MM/yy HH:mm:ss").format(actualDateTo);
+        assertEquals(expectedDateTo, formattedActualDateTo);
     }
+
 
     @Test
     void setDateTo() {
-        Timestamp newDateTo = Timestamp.valueOf("2023-07-02 12:00:00");
+        String expectedDateTo = "02/07/23 12:00:00";
+        Timestamp newDateTo = Timestamp.valueOf("02/07/23 12:00:00");
         flight.setDateTo(newDateTo);
-        assertEquals(newDateTo, flight.getDateTo());
+        String formattedActualDateTo = new SimpleDateFormat("dd/MM/yy HH:mm:ss").format(flight.getDateTo());
+        assertEquals(expectedDateTo, formattedActualDateTo);
     }
+
 
     @Test
     void setAirplane() {
@@ -115,6 +131,8 @@ class FlightTest {
         flight.setAirplane(newAirplane);
         assertEquals(newAirplane, flight.getAirplane());
     }
+
+
 
     @Test
     void getAirplane() {

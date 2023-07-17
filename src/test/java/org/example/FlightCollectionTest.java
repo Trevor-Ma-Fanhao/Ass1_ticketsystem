@@ -13,8 +13,8 @@ class FlightCollectionTest {
 
     @BeforeEach
     void setUp() {
-        flight1 = new Flight(1, "CityA", "CityB", "AB123", "Airline", null, null, null);
-        flight2 = new Flight(2, "CityB", "CityC", "BC456", "Airline", null, null, null);
+        flight1 = new Flight(1, "Suzhou", "Shanghai", "AB123", "Airline", null, null, null);
+        flight2 = new Flight(2, "Shanghai", "Beijing", "BC456", "Airline", null, null, null);
     }
     @Test
     void getFlights() {
@@ -32,18 +32,26 @@ class FlightCollectionTest {
     @Test
     void addFlights() {
         // Create a new flight and add it to the collection
-        Flight newFlight = new Flight(4, "CityC", "CityD", "CD012", "Airline", null, null, null);
+        Flight newFlight = new Flight(4, "Beijing", "Shenzhen", "CD012", "Airline", null, null, null);
 
-        FlightCollection.addFlights(new ArrayList<>(List.of(newFlight)));
-
-        // Retrieve the flights and assert that the new flight is present
         ArrayList<Flight> retrievedFlights = FlightCollection.getFlights();
+
+        if (!retrievedFlights.contains(newFlight)) {
+            FlightCollection.addFlights(new ArrayList<>(List.of(newFlight)));
+        } else {
+            fail("Flight with the same ID already exists in the system: " + newFlight.getFlightID());
+        }
+
+        // Retrieve the flights again and assert that the new flight is present
+        retrievedFlights = FlightCollection.getFlights();
         assertTrue(retrievedFlights.contains(newFlight));
     }
+
+
     @Test
     void testValidCityNames() {
         // Create a new flight with valid city names
-        Flight validFlight = new Flight(4, "CityD", "CityE", "DE012", "Airline", null, null, null);
+        Flight validFlight = new Flight(4, "Nanjing", "Shenzhen", "DE012", "Airline", null, null, null);
 
         // Add the new flight to the FlightCollection
         FlightCollection.addFlights(new ArrayList<>(List.of(validFlight)));
@@ -61,7 +69,7 @@ class FlightCollectionTest {
         FlightCollection.addFlights(new ArrayList<>(List.of(flight1, flight2)));
 
         // Test getting flight information by city
-        String city = "CityB";
+        String city = "Shanghai";
         Flight matchingFlight = FlightCollection.getFlightInfo(city);
 
         // Assert that a flight departing to the given city is returned
