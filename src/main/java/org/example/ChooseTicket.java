@@ -31,17 +31,18 @@ public class ChooseTicket{
         	
         	TicketCollection.getAllTickets();
        
-	        System.out.println("\nEnter ID of ticket you want to choose:");
-			System.out.flush(); // 刷新输出缓冲区
-	        int ticket_id = in.nextInt();
+//	        System.out.println("\nEnter ID of ticket you want to choose:");
+//			System.out.flush(); // 刷新输出缓冲区
+//	        int ticket_id = in.nextInt();
 
 	        //validate ticker here  验证是否选定的票有效
-			ticket = TicketCollection.getTicketInfo(ticket_id);
+			ticket = TicketCollection.getTicketInfo(2);
 			if (ticket.ticketStatus() == true){
+				System.out.println("\nticket is ordered by other people!");
 				throw new IllegalArgumentException("ticket is ordered by other people!");
 			}
 	        //buy ticket here
-	        buyTicket.buyTicket(ticket_id);
+	        buyTicket.buyTicket(2);
         }
         else
             //in case there is no direct ticket from city1 to city2

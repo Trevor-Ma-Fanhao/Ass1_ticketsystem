@@ -23,9 +23,10 @@ public class PersonTest {
     public void testValidGenderOptions() {
         //String[] validGenders = {"Woman", "Man", "Non-binary | gender diverse", "Prefer not to say", "Other"};
         Assertions.assertThrows(IllegalArgumentException.class, () ->
-                new Person("trevor", "Ma", 24, "boy" ));
+                new Person("trevor", "Ma", 24, "boy"));
         Assertions.assertThrows(IllegalArgumentException.class, () ->
-                new Person("trevor", "Ma", 24, "girl"));
+                new Person("trevor", "Ma", 24, "evwhcv"));
+        Assertions.assertDoesNotThrow(() -> {new Person("trevor", "Ma", 24, "Man");});
     }
     @Test
     public void testInvalidNameFormat() {

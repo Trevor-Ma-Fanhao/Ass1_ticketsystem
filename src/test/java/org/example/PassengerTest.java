@@ -10,9 +10,27 @@ public class PassengerTest {
     }
     @Test
     public void testPassengerAllFieldsRequired() {
+        Assertions.assertDoesNotThrow(()->{new Passenger("Fanhao", "Ma", 25, "Man",
+                "932952939@qq.com", "+61481888206", "88888","88888",88888);});
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            new Passenger("Fanhao", "Ma", 25, "Man", null, "+61481888206",
+                    "88888","88888",88888);
+        });
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            new Passenger("Fanhao", "Ma", 25, "Man", "932952939@qq.com", null,
+                    "88888","88888",88888);
+        });
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            new Passenger(null, null, 0, null, null, null,
-                    null,null,0);
+            new Passenger("Fanhao", "Ma", 25, "Man", "932952939@qq.com", "+61481888206",
+                    null,"88888",88888);
+        });
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new Passenger("Fanhao", "Ma", 25, "Man", "932952939@qq.com", "+61481888206",
+                    "88888",null,88888);
+        });
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new Passenger("Fanhao", "Ma", 25, "Man", "932952939@qq.com", "+61481888206",
+                    "88888","88888",0);
         });
     }
     @Test
@@ -22,12 +40,12 @@ public class PassengerTest {
                     "+8681888206", "null","null",888);
         });
         Assertions.assertDoesNotThrow(() -> {
-            new Passenger("John", "Doe", 30, "Male", "john.doe@example.com",
+            new Passenger("John", "Doe", 30, "Prefer not to say", "john.doe@example.com",
                     "+61456789012", "ABCD1234","5678",999);
         });
 
         Assertions.assertDoesNotThrow(() -> {
-            new Passenger("Alice", "Smith", 25, "Female", "alice.smith@example.com",
+            new Passenger("Alice", "Smith", 25, "Prefer not to say", "alice.smith@example.com",
                     "0441234567", "EFGH5678","1234",777);
         });
     }
