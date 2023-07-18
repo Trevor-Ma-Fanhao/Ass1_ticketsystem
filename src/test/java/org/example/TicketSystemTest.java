@@ -77,10 +77,6 @@ public class TicketSystemTest {
     @Test
     public void testShowTicketWithValidTicket() {
         buyTicket = new BuyTicket(dummypassenger, dummyflight, dummyticket);
-//        Timestamp dateFrom = Timestamp.valueOf(LocalDateTime.now().plusHours(1));
-//        Timestamp dateTo = Timestamp.valueOf(LocalDateTime.now().plusDays(1));
-//        Airplane airplane = mock(Airplane.class);
-//        when(dummyticket.getFlight()).thenReturn(new Flight(1, "Sydney", "Melbourne", "xxx", "XXX", dateFrom, dateTo, airplane));
         assertTrue(buyTicket.showTicket());
     }
     @Test
@@ -137,8 +133,6 @@ public class TicketSystemTest {
     });
 
     }
-
-
 
 
 }

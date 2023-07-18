@@ -22,8 +22,8 @@ public class Passenger extends Person
         final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
 
         if (firstName == null || secondName == null || age == 0 ||gender == null ||
-                passport==null||cardNumber==null||securityCode <= 0) {
-            throw new IllegalArgumentException("age should be in 1-100");
+                passport==null || cardNumber==null || securityCode <= 0) {
+            throw new IllegalArgumentException("Parameters can't be empty");
         }
         if (!Pattern.matches(AUSTRALIAN_PHONE_REGEX,phoneNumber)){
             throw new IllegalArgumentException("phone number should be in format");
@@ -31,7 +31,7 @@ public class Passenger extends Person
         if (!Pattern.matches(EMAIL_REGEX,email)){
             throw new IllegalArgumentException("email should be in format");
         }
-        if (passport != null && passport.length() > 9) {
+        if ( passport.length() > 9) {
             throw new IllegalArgumentException("Passport number should not exceed 9 characters");
         }
 

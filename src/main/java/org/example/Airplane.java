@@ -1,5 +1,4 @@
 package org.example;
-
 public class Airplane
 {
     private int airplaneID;
@@ -10,19 +9,48 @@ public class Airplane
 
     public Airplane(int airplaneID, String airplaneModel, int businessSitsNumber, int economySitsNumber, int crewSitsNumber)
     {
+
+        if(airplaneModel == null){
+            throw new IllegalArgumentException("airplaneModel must be null.");
+        }
+        if(businessSitsNumber < 1 || businessSitsNumber > 300){
+            throw new IllegalArgumentException("Seat number must be in the range [1, 300].");
+        }
+        if(economySitsNumber < 1 || economySitsNumber > 300){
+            throw new IllegalArgumentException("Seat number must be in the range [1, 300].");
+        }
+        if(crewSitsNumber < 1 || crewSitsNumber > 300){
+            throw new IllegalArgumentException("Seat number must be in the range [1, 300].");
+        }
+        int totalSitsNumber = businessSitsNumber + economySitsNumber + crewSitsNumber;
+        if(totalSitsNumber < 1 || totalSitsNumber > 300){
+            throw new IllegalArgumentException("Seat number must be in the range [1, 300].");
+        }
+        if(airplaneID <= 0 ){
+            throw new IllegalArgumentException("airplaneID must be positive integer.");
+        }
         this.airplaneID=airplaneID;
         this.airplaneModel = airplaneModel;
         this.businessSitsNumber = businessSitsNumber;
         this.economySitsNumber = economySitsNumber;
         this.crewSitsNumber = crewSitsNumber;
+
     }
+
 
     public int getAirplaneID() {
         return airplaneID;
     }
 
     public void setAirplaneID(int airplaneID) {
-        this.airplaneID = airplaneID;
+        if(airplaneID <= 0 ){
+            throw new IllegalArgumentException("airplaneID must be positive integer.");
+        }
+        else{
+            this.airplaneID = airplaneID;
+        }
+
+
     }
 
     public String getAirplaneModel() {
@@ -30,31 +58,56 @@ public class Airplane
     }
 
     public void setAirplaneModel(String airplaneModel) {
+        if( airplaneModel == null){
+            throw new IllegalArgumentException("airplaneModel must be null.");
+        }
+        else{
         this.airplaneModel = airplaneModel;
+        }
     }
+
 
     public int getBusinessSitsNumber() {
         return businessSitsNumber;
     }
 
     public void setBusinessSitsNumber(int businessSitsNumber) {
-        this.businessSitsNumber = businessSitsNumber;
+        if(businessSitsNumber < 1 || businessSitsNumber > 300){
+            throw new IllegalArgumentException("Seat number must be in the range [1, 300].");
+        }
+        else {
+            this.businessSitsNumber = businessSitsNumber;
+        }
     }
+
 
     public int getEconomySitsNumber() {
         return economySitsNumber;
     }
 
-    public void setEconomySitsNumber(int economSitsNumber) {
-        this.economySitsNumber = economSitsNumber;
+    public void setEconomySitsNumber(int economySitsNumber) {
+        if(economySitsNumber < 1 || economySitsNumber > 300){
+            throw new IllegalArgumentException("Seat number must be in the range [1, 300].");
+        }
+        else {
+            this.economySitsNumber = economySitsNumber;
+        }
+
     }
+
 
     public int getCrewSitsNumber() {
         return crewSitsNumber;
     }
 
     public void setCrewSitsNumber(int crewSitsNumber) {
-        this.crewSitsNumber = crewSitsNumber;
+        if(crewSitsNumber < 1 || crewSitsNumber > 300){
+            throw new IllegalArgumentException("Seat number must be in the range [1, 300].");
+        }
+        else {
+            this.crewSitsNumber = crewSitsNumber;
+        }
+
     }
 
     public String toString()
@@ -67,9 +120,11 @@ public class Airplane
                 '}';
     }
 
-	public static Airplane getAirPlaneInfo(int airplane_id) {
-		// TODO Auto-generated method stub
 
-		return null;
-	}
+
+    public static Airplane getAirPlaneInfo(int airplane_id) {
+        // TODO Auto-generated method stub
+
+        return null;
+    }
 }
