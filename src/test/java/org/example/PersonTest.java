@@ -10,19 +10,15 @@ public class PersonTest {
     }
     @Test
     public void testPersonAllFieldsRequired() {
-        // 方法应该移出 testAllFieldsRequired 方法的内部
-        // 并且没有必要将该方法声明为 final
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new Person(null, "Ma", 25, "Man"));
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            new Person(null, null, 0, null);
+            new Person("Fanhao", null, 25, "Man");
         });
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            new Person(null, null, 0, null);
+            new Person("Fanhao", "Ma", 0, "Man");
         });
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            new Person(null, null, 0, null);
-        });
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            new Person(null, null, 0, null);
+            new Person("Fanhao", "Ma", 25, null);
         });
     }
     @Test
