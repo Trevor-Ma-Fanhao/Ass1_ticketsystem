@@ -31,7 +31,7 @@ public class Passenger extends Person
         if (!Pattern.matches(EMAIL_REGEX,email)){
             throw new IllegalArgumentException("email should be in format");
         }
-        if (passport != null && passport.length() > 9) {
+        if ( passport.length() > 9) {
             throw new IllegalArgumentException("Passport number should not exceed 9 characters");
         }
 
