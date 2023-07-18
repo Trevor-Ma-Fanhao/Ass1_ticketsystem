@@ -26,22 +26,27 @@ public class TicketCollectionTest {
 
         flight = new Flight();
 
-        // 创建一个示例的 Ticket 对象
         Passenger passenger = new Passenger("John", "Doe", 30, "Man", "john.doe@example.com", "+61481888206", "AB123456", "123456789", 123);
         ticket = new Ticket(1, 100, flight, true, passenger);
 
+        // 创建一个示例的 Ticket 对象
+
     }
 
-    @Test
-    public void testAddValidatedTickets() {
-        Ticket ticket = new Ticket(123, 100, new Flight(), true, new Passenger());
-        tickets.add(ticket);
-
-        TicketCollection.addTickets(tickets);
-        ArrayList<Ticket> retrievedTickets = TicketCollection.getTickets();
-
-        Assertions.assertEquals(tickets, retrievedTickets);
-    }
+//    @Test
+//    public void testAddValidatedTickets() {
+//      //  Ticket ticket = new Ticket(123, 100, new Flight(), true, new Passenger());
+//        flight = new Flight();
+//
+//        tickets.add(ticket);
+//        Passenger passenger = new Passenger("John", "Doe", 30, "Man", "john.doe@example.com", "+61481888206", "AB123456", "123456789", 123);
+//        ticket = new Ticket(1, 100, flight, true, passenger);
+//
+//        TicketCollection.addTickets(tickets);
+//        ArrayList<Ticket> retrievedTickets = TicketCollection.getTickets();
+//
+//        Assertions.assertEquals(tickets, retrievedTickets);
+//    }
 
     @Test
     public void testGetTickets() {

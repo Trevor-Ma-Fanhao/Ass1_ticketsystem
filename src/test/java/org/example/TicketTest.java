@@ -40,13 +40,13 @@ public class TicketTest {
     @DisplayName("testSaleByAge")
     public void testTicketCreationWithDiscount() {
         Flight flight = new Flight();
-        Passenger passenger = new Passenger("John", "Doe", 25, "Male", "johndoe@example.com", "123456789", "ABC123", "1234567890", 123);
+        Passenger passenger = new Passenger("John", "Doe", 25, "Man", "johndoe@example.com", "+61456789012", "ABC123", "1234567890", 123);
         passenger.setAge(25);
         Ticket ticket = new Ticket(1, 100, flight, false, passenger);
 
         assertEquals(100, ticket.getPrice()); // The initial price should be set correctly
 
-        Passenger passenger2 = new Passenger("Alice", "Smith", 12, "Female", "alice@example.com", "987654321", "DEF456", "0987654321", 456);
+        Passenger passenger2 = new Passenger("Alice", "Smith", 12, "Woman", "alice@example.com", "+61456789012", "DEF456", "0987654321", 456);
 
         passenger2.setAge(12);
         ticket.setPassenger(passenger2);
@@ -56,7 +56,7 @@ public class TicketTest {
         // Reset the ticket price to 100
 
 
-        Passenger passenger3 = new Passenger("Bob", "Johnson", 65, "Male", "bob@example.com", "543216789", "GHI789", "5678901234", 789);
+        Passenger passenger3 = new Passenger("Bob", "Johnson", 65, "Man", "bob@example.com", "+61456789012", "GHI789", "5678901234", 789);
         passenger3.setAge(65);
         ticket.setPassenger(passenger3);
         ticket.setPrice(ticket.getPrice());
@@ -66,7 +66,7 @@ public class TicketTest {
 
     @Test
     public void testSetPrice() {
-        Passenger passenger = new Passenger("John", "Doe", 25, "Male", "johndoe@example.com", "123456789", "ABC123", "1234567890", 123);
+        Passenger passenger = new Passenger("John", "Doe", 25, "Man", "johndoe@example.com", "+61456789012", "ABC123", "1234567890", 123);
         passenger.setAge(25);
         Ticket ticket = new Ticket(1, 100, flight, false, passenger);
         ticket.setPrice(ticket.getPrice());
@@ -92,7 +92,7 @@ public class TicketTest {
 
     @Test
     public void testServiceTax_ValidValue() {
-        Passenger passenger = new Passenger("John", "Doe", 25, "Male", "johndoe@example.com", "123456789", "ABC123", "1234567890", 123);
+        Passenger passenger = new Passenger("John", "Doe", 25, "Man", "johndoe@example.com", "+61456789012", "ABC123", "1234567890", 123);
         passenger.setAge(25);
         Ticket ticket = new Ticket(1, 100, flight, false, passenger);
         ticket.serviceTax();
