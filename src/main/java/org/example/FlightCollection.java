@@ -7,7 +7,6 @@ public class FlightCollection {
 	public static ArrayList<Flight> flights = new ArrayList<>();
 
 	public static ArrayList<Flight> getFlights() {
-
 		return flights;
 	}
 
@@ -32,7 +31,6 @@ public class FlightCollection {
 		if (newFlights == null || newFlights.contains(null)) {
 			throw new IllegalArgumentException("Flight collection cannot be null or contain null value");
 		}
-
 		FlightCollection.flights.addAll(newFlights);
 	}
 
