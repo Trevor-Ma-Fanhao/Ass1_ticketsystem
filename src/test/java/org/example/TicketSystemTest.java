@@ -44,7 +44,6 @@ public class TicketSystemTest {
         dummyticket = new Ticket(1,100,dummyflight,true,dummypassenger);
 
 
-
         //创建空的ticketcollection 并addticket
         ArrayList<Ticket> ticketslist = new ArrayList<>();
         ticketslist.add(dummyticket);
