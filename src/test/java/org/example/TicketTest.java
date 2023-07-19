@@ -63,7 +63,7 @@ public class TicketTest {
         assertEquals(0, ticket.getPrice()); // The price should be discounted to 0 for passengers aged 60 or above
     }
 
-
+  //  Price is always applied to a ticket.
     @Test
     public void testSetPrice() {
         Passenger passenger = new Passenger("John", "Doe", 25, "Man", "johndoe@example.com", "+61456789012", "ABC123", "1234567890", 123);
@@ -89,7 +89,7 @@ public class TicketTest {
         });
         assertEquals("Ticket passenger cannot be null", e.getMessage());
     }
-
+// The price and service tax are valid values
     @Test
     public void testServiceTax_ValidValue() {
         Passenger passenger = new Passenger("John", "Doe", 25, "Man", "johndoe@example.com", "+61456789012", "ABC123", "1234567890", 123);
@@ -98,7 +98,7 @@ public class TicketTest {
         ticket.serviceTax();
         Assertions.assertEquals(112, ticket.getPrice()); // Assuming service tax is correctly applied
     }
-
+//Ticker class receives valid information of flight and passenger.
     @Test
     public void testGetSetFlight() {
         Flight flight = new Flight();
