@@ -35,7 +35,7 @@ public class Ticket
     public void setPrice(int price)
     {
         this.price = price;
-        if (price < 0) {
+        if (price <= 0) {
             throw new IllegalArgumentException("Ticket price must be non-negative number");
         }
         saleByAge(passenger.getAge()); //changes price of the ticket according to the age category of passenger
@@ -45,8 +45,6 @@ public class Ticket
     public void saleByAge(int age)
     {
         //add
-        if (age>=99 || age<=0)
-            throw new IllegalArgumentException("Age can only be within 1-98");
 
         int price = getPrice();
         if(age < 15)
