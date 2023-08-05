@@ -69,6 +69,9 @@ public class TicketSystemTest {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             chooseTicket2.chooseTicket("6hongkong", city2);
         });
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            chooseTicket2.chooseTicket(city1, "L0ndon");
+        });
 //        Assertions.assertDoesNotThrow(()->{chooseTicket1.chooseTicket(city1,city2);});
         //这里如果输入了正确的出发地和目的地，会跳转到对应的ticketID选择以及passenger信息输入，需要用Scanner Mock实现，暂时跳过
     }
@@ -85,17 +88,18 @@ public class TicketSystemTest {
         dummyticket_booked.setTicketStatus(true);
 
         //创建空的ticketcollection 并addticket
-        ArrayList<Ticket> ticketslist = new ArrayList<>();
-        ticketslist.add(dummyticket_booked);
-        TicketCollection ticketCollection = new TicketCollection();
-        ticketCollection.addTickets(ticketslist);
+        ArrayList<Ticket> ticketslist_booked = new ArrayList<>();
+        ticketslist_booked.add(dummyticket_booked);
+        TicketCollection.addTickets(ticketslist_booked);
+
 
         ChooseTicket chooseTicket_booked = new ChooseTicket();
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-                chooseTicket_booked.chooseTicket("London", "NewYork");
+                chooseTicket_booked.chooseTicket("london", "newyork");
         });
     }
 
+//    Appropriate checks have been implemented to validate passenger information
 
     @Test
     public void testBuyTicketWithValidPassenger() {
@@ -116,6 +120,7 @@ public class TicketSystemTest {
         assertEquals("age should be in 1-100", e.getMessage());
 
     }
+    //4. Appropriate checks have been implemented to validate flight information
 
     @Test
     public void testBuyTicketWithInvalidFlightInfo() {

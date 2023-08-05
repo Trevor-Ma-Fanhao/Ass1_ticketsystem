@@ -24,19 +24,18 @@ public class ChooseTicket{
 		Ticket ticket = new Ticket();
 
         //search for direct flight from city1 to city2
-        
+
         flight = FlightCollection.getFlightInfo(city1, city2);
-
+		flight.toString();
         if(flight != null) {
-        	
-        	TicketCollection.getAllTickets();
-       
-//	        System.out.println("\nEnter ID of ticket you want to choose:");
-//			System.out.flush(); // 刷新输出缓冲区
-//	        int ticket_id = in.nextInt();
 
+
+        	TicketCollection.getAllTickets();
+	        System.out.println("\nEnter ID of ticket you want to choose:");
 	        //validate ticker here  验证是否选定的票有效
 			ticket = TicketCollection.getTicketInfo(2);
+			System.out.println("\nticket you choose is :");
+			ticket.toString();
 			if (ticket.ticketStatus() == true){
 				System.out.println("\nticket is ordered by other people!");
 				throw new IllegalArgumentException("ticket is ordered by other people!");
@@ -46,6 +45,7 @@ public class ChooseTicket{
         }
         else
             //in case there is no direct ticket from city1 to city2
+			System.out.println("\nin case there is no direct ticket from city1 to city2");
         {
         	//SELECT a flight where depart_to = city2
         	

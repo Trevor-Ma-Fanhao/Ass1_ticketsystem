@@ -23,6 +23,8 @@ public class BuyTicket <T>
         this.passenger = passenger;
         this.ticket = ticket;
         this.flight = flight;
+
+        this.ticket.setTicketStatus(true);
     }
 
     public boolean showTicket()

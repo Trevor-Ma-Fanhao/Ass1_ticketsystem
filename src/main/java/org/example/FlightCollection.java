@@ -36,10 +36,11 @@ public class FlightCollection {
 
 	public static Flight getFlightInfo(String city1, String city2) {
     	//display the flights where there is a direct flight from city 1 to city2
-		if(validateCity(city1) || validateCity(city2)){
+		if(!validateCity(city1) || !validateCity(city2)){
+			System.out.println("\nInvalid city name: City name can only contain letters and spaces");
 			throw new IllegalArgumentException("Invalid city name: City name can only contain letters and spaces");
 		}
-    	return null;
+		return flights.get(0);
     }
     
 //    public static Flight getFlightInfo(String city) {

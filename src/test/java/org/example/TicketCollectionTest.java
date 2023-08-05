@@ -61,6 +61,7 @@ public class TicketCollectionTest {
         ArrayList<Ticket> result = TicketCollection.getTickets();
         Assertions.assertEquals(tickets, result);
     }
+//1. Whenever a ticket is being added to the TicketCollection, it must be validated.
 
     @Test
     public void testAddTickets() {
@@ -74,7 +75,7 @@ public class TicketCollectionTest {
         // 验证 TicketCollection 的 tickets 已包含添加的 Ticket
         Assertions.assertTrue(TicketCollection.tickets.contains(ticket));
     }
-
+    //            2. When trying to get a ticket, the correct ticket is returned.
     @Test
     public void testGetTicketInfoWithNull() {
         int ticketId = 123; // 你要测试的 ticket_id 值

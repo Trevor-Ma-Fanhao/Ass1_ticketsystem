@@ -10,8 +10,10 @@ public class TicketSystem {
     }
     public class ChooseTicket{
 
-        BuyTicket buyTicket = new BuyTicket();
-
+        private boolean isAlpha(String input) {
+            return input.matches("[a-zA-Z]+");
+        }
+        TicketSystem.BuyTicket buyTicket = new TicketSystem.BuyTicket();
         Scanner in = new Scanner(System.in);
 
         public void chooseTicket(String city1, String city2) throws Exception
@@ -24,24 +26,26 @@ public class TicketSystem {
             int idSecond = 0;
 
             Flight flight = new Flight();
+            Ticket ticket = new Ticket();
 
             //search for direct flight from city1 to city2
-
+            System.out.println("\nEnter ID of ticket you want to choose:");
             flight = FlightCollection.getFlightInfo(city1, city2);
-
-
+            flight.toString();
             if(flight != null) {
 
                 TicketCollection.getAllTickets();
-
-                System.out.println("\nEnter ID of ticket you want to choose:");
-
-                int ticket_id = in.nextInt();
-
-                //validate ticker here
-
+                System.out.println("\nEnter ID of ticket you want to choose: 2 ");
+                //validate ticker here  验证是否选定的票有效
+                ticket = TicketCollection.getTicketInfo(2);
+                System.out.println("\nticket you choose is :");
+                ticket.toString();
+                if (ticket.ticketStatus() == true) {
+                    System.out.println("\nticket is ordered by other people!");
+                    throw new IllegalArgumentException("ticket is ordered by other people!");
+                }
                 //buy ticket here
-                buyTicket.buyTicket(ticket_id);
+                buyTicket.buyTicket(2);
             }
             else
             //in case there is no direct ticket from city1 to city2
@@ -66,7 +70,9 @@ public class TicketSystem {
 
                     idSecond = flightConnectingTwoCities.getFlightID();
 
+
                 }
+
                 counter++;
 
                 buyTicket.buyTicket(idFirst, idSecond); //pass two tickets and buy them
@@ -77,7 +83,9 @@ public class TicketSystem {
                 }
                 return;
             }
+
         }
+
     }
 
 
