@@ -7,8 +7,19 @@ public class TicketSystem {
 
     Passenger passenger = new Passenger();
     Ticket ticket = new Ticket();
+    Ticket ticket2 = new Ticket();
     Flight flight = new Flight();
-    Scanner in = new Scanner(System.in);
+    Flight flight2 = new Flight();
+    private Scanner in;
+    private TicketCollection ticketCollection;
+    private FlightCollection flightCollection;
+
+    public TicketSystem(TicketCollection ticketCollection,FlightCollection flightCollection,Scanner in){
+        this.ticketCollection = ticketCollection;
+        this.flightCollection = flightCollection;
+        this.in = in;
+    }
+
 
     private boolean isAlpha(String input) {
         return input.matches("[a-zA-Z]+");
@@ -24,16 +35,11 @@ public class TicketSystem {
 
     public boolean showTicket()
     {
-//        try
-//        {
+
         System.out.println("You have bought a ticket for flight " + ticket.flight.getDepartFrom() + " - " + ticket.flight.getDepartTo() + "\n\nDetails:");
         System.out.println(this.ticket.toString());
         return true;
-//        }
-//        catch (NullPointerException e)
-//        {
-//            return false;
-//        }
+
     }
 
     public void buyTicket(int ticket_id) throws Exception
@@ -42,7 +48,7 @@ public class TicketSystem {
         int flight_id = 0;
 
         //select ticket where ticket_id="+ticket_id"
-        Ticket validTicket = TicketCollection.getTicketInfo(ticket_id);
+        Ticket validTicket = ticketCollection.getTicketInfo(ticket_id);
 
         //if there is a valid ticket id was input then we buy it, otherwise show message
         if(validTicket != null)
