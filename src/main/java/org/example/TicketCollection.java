@@ -2,14 +2,19 @@ package org.example;
 
 import java.util.ArrayList;
 
+
 public class TicketCollection {
 	
 	public static ArrayList<Ticket> tickets;
+
+
 
 	//在类的静态块中对其进行初始化
 	static {
 		tickets = new ArrayList<>();
 	}
+
+
 	public static ArrayList<Ticket> getTickets() {
 		return tickets;
 	}
@@ -18,8 +23,12 @@ public class TicketCollection {
 		if (tickets_db == null)
 			throw new IllegalArgumentException("Ticket list cannot contain null");
 		TicketCollection.tickets.addAll(tickets_db);
+
+
 	}
-	
+
+
+
 	public static void getAllTickets() {
     	//display all available tickets from the Ticket collection
 		for (Ticket ticket : tickets) {
