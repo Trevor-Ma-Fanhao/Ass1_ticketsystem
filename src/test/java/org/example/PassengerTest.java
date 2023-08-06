@@ -54,7 +54,9 @@ public class PassengerTest {
     @Test
     public void validatePassport(){
         Assertions.assertThrows(IllegalArgumentException.class,()-> new Passenger("Fanhao", "Ma",
-                24, "Man", "932952939", "+61481888206", "6666666666","6666",888));
+                24, "Man", "932952939", "+61481888206", "666666666666","6666",888));
+        Assertions.assertThrows(IllegalArgumentException.class,()-> new Passenger("Fanhao", "Ma",
+                24, "Man", "932952939@qq.com", "+61481888206", "6666666666","6666",888));
         Assertions.assertDoesNotThrow(() -> {new Passenger("Fanhao", "Ma", 24, "Man", "932952939@qq.com",
                     "+61481888206", "666666666","6666",888);});
     }
@@ -136,17 +138,34 @@ public class PassengerTest {
     @Test
     public void testsetSecurityCode(){
         Assertions.assertThrows(IllegalArgumentException.class,() -> trevor.setSecurityCode(-1));
+        Assertions.assertThrows(IllegalArgumentException.class,() -> trevor.setSecurityCode(0));
         Assertions.assertDoesNotThrow(() -> trevor.setSecurityCode(88888));
     }
     @Test
+    public void testgetSecurityCode(){
+        int expectedSecurityCode = 88888;
+        int actualSecurityCode = trevor.getSecurityCode();
+        Assertions.assertEquals(expectedSecurityCode, actualSecurityCode);
+    }
+    @Test
     public void testsetCardNumber(){
-        Assertions.assertTrue(trevor.getSecurityCode() > 0);
-        Assertions.assertTrue(trevor.getSecurityCode() == 88888);
+        Assertions.assertThrows(IllegalArgumentException.class,() -> trevor.setCardNumber(null));
+        Assertions.assertDoesNotThrow(() -> trevor.setCardNumber("66666"));
     }
     @Test
     public void testgetCardNumber(){
         Assertions.assertTrue(trevor.getCardNumber() != null);
         Assertions.assertEquals(trevor.getCardNumber(), "88888");
+    }
+    @Test
+    public void testsetEmail(){
+        Assertions.assertThrows(IllegalArgumentException.class,() -> trevor.setEmail("932952939qq.com"));
+        Assertions.assertDoesNotThrow(() -> trevor.setEmail("932952939@outlook.com"));
+    }
+    @Test
+    public void testgetEmail(){
+        String email = trevor.getEmail();
+        Assertions.assertTrue(Pattern.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$",email));
     }
     @Test
     public void testToString() {
