@@ -32,8 +32,9 @@ public class TicketSystemTest {
     private Flight dummyflight;
     private Airplane dummyairplane;
 
-
     private BuyTicket buyTicket;
+
+    private TicketSystem ticketSystem;
 
     @BeforeEach
     public void setUp() {
