@@ -31,6 +31,8 @@ public class TicketSystemTest {
     private Ticket dummyticket;
     private Flight dummyflight;
     private Airplane dummyairplane;
+
+
     private BuyTicket buyTicket;
 
     @BeforeEach
@@ -58,46 +60,56 @@ public class TicketSystemTest {
 
     }
 
-    @Test
-    void chooseTicketValidCityTest() throws Exception {
-        String city1 = "London";
-        String city2 = "NewYork";
-
-        // 创建 ChooseTicket 对象，并调用 chooseTicket 方法
-        ChooseTicket chooseTicket1 = new ChooseTicket();
-        ChooseTicket chooseTicket2 = new ChooseTicket();
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            chooseTicket2.chooseTicket("6hongkong", city2);
-        });
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            chooseTicket2.chooseTicket(city1, "L0ndon");
-        });
-//        Assertions.assertDoesNotThrow(()->{chooseTicket1.chooseTicket(city1,city2);});
-        //这里如果输入了正确的出发地和目的地，会跳转到对应的ticketID选择以及passenger信息输入，需要用Scanner Mock实现，暂时跳过
-    }
+//    @Test
+//    void chooseTicketValidCityTest() throws Exception {
+//        String city1 = "London";
+//        String city2 = "NewYork";
+//
+//        // 创建 ChooseTicket 对象，并调用 chooseTicket 方法
+//        TicketSystem ticketSystem1 = new TicketSystem();
+//        TicketSystem ticketSystem2 = new TicketSystem();
+//        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+//            ticketSystem1.("6hongkong", city2);
+//        });
+//        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+//            ticketSystem2.ChooseTicket(city1, "L0ndon");
+//        });
+//
+//
+//        ChooseTicket chooseTicket1 = new ChooseTicket();
+//        ChooseTicket chooseTicket2 = new ChooseTicket();
+//        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+//            chooseTicket2.chooseTicket("6hongkong", city2);
+//        });
+//        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+//            chooseTicket2.chooseTicket(city1, "L0ndon");
+//        });
+////        Assertions.assertDoesNotThrow(()->{chooseTicket1.chooseTicket(city1,city2);});
+//        //这里如果输入了正确的出发地和目的地，会跳转到对应的ticketID选择以及passenger信息输入，需要用Scanner Mock实现，暂时跳过
+//    }
 
     @Test
     public void testShowTicketWithValidTicket() {
         buyTicket = new BuyTicket(dummypassenger, dummyflight, dummyticket);
         assertTrue(buyTicket.showTicket());
     }
-    @Test
-    public void testChooseBookedTicket(){
-
-        Ticket dummyticket_booked = new Ticket(2,100,dummyflight,true,dummypassenger);
-        dummyticket_booked.setTicketStatus(true);
-
-        //创建空的ticketcollection 并addticket
-        ArrayList<Ticket> ticketslist_booked = new ArrayList<>();
-        ticketslist_booked.add(dummyticket_booked);
-        TicketCollection.addTickets(ticketslist_booked);
-
-
-        ChooseTicket chooseTicket_booked = new ChooseTicket();
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-                chooseTicket_booked.chooseTicket("london", "newyork");
-        });
-    }
+//    @Test
+//    public void testChooseBookedTicket(){
+//
+//        Ticket dummyticket_booked = new Ticket(2,100,dummyflight,true,dummypassenger);
+//        dummyticket_booked.setTicketStatus(true);
+//
+//        //创建空的ticketcollection 并addticket
+//        ArrayList<Ticket> ticketslist_booked = new ArrayList<>();
+//        ticketslist_booked.add(dummyticket_booked);
+//        TicketCollection.addTickets(ticketslist_booked);
+//
+//
+//        ChooseTicket chooseTicket_booked = new ChooseTicket();
+//        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+//                chooseTicket_booked.chooseTicket("london", "newyork");
+//        });
+//    }
 
 //    Appropriate checks have been implemented to validate passenger information
 

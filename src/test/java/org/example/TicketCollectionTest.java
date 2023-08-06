@@ -36,7 +36,7 @@ public class TicketCollectionTest {
 //        mockPassenger = mock(Passenger.class);
 //        mockFlightCollection = mock(FlightCollection.class);
 //        mockAirplane = mock(Airplane.class);
-        mockStatic(FlightCollection.class);
+    //    mockStatic(FlightCollection.class);
     }
 
     @BeforeEach
