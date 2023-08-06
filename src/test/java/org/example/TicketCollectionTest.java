@@ -56,14 +56,14 @@ public class TicketCollectionTest {
 //    public void setUp() {
 //        tickets = new ArrayList<>();
 //
-//        flight = new Flight();
-//
-//        Passenger passenger = new Passenger("John", "Doe", 30, "Man", "john.doe@example.com", "+61481888206", "AB123456", "123456789", 123);
-//        ticket = new Ticket(1, 100, flight, true, passenger);
+//        flicket = new Ticket(1, 100, flight, true, passenger);
 //
 //        // 创建一个示例的 Ticket 对象
 //
-//    }
+//    }ght = new Flight();
+////
+////        Passenger passenger = new Passenger("John", "Doe", 30, "Man", "john.doe@example.com", "+61481888206", "AB123456", "123456789", 123);
+////        ti
 
     @Test
     public void testGetAllTickets() {
