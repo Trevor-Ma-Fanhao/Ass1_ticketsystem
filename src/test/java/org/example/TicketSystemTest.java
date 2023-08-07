@@ -55,6 +55,7 @@ public class TicketSystemTest {
     FlightCollection DummyFlightCollection;
     TicketCollection DummyTicketCollection;
     TicketSystem ticketSystem;
+    TicketSystem ticketSystem2;
     Scanner scannerMock;
 
 
@@ -62,8 +63,6 @@ public class TicketSystemTest {
 
     Timestamp timestamp1 = Timestamp.valueOf("2023-08-15 00:00:00");
     Timestamp timestamp2 = Timestamp.valueOf("2023-08-20 00:00:00");
-
-
 
 
     @BeforeAll
@@ -94,6 +93,7 @@ public class TicketSystemTest {
 
         // Create ticketSystem by Dummy Data
         ticketSystem = new TicketSystem(DummyTicketCollection, DummyFlightCollection, scannerMock);
+        ticketSystem2 = new TicketSystem();
     }
 
 //    @BeforeEach
@@ -149,11 +149,29 @@ public class TicketSystemTest {
         //这里如果输入了正确的出发地和目的地，会跳转到对应的ticketID选择以及passenger信息输入，需要用Scanner Mock实现，暂时跳过
 //    }
 
-//    @Test
-//    public void testShowTicketWithValidTicket() {
+    @Test
+    public void testShowTicketWithValidTicket() {
 //        buyTicket = new BuyTicket(dummypassenger, dummyflight, dummyticket);
 //        assertTrue(buyTicket.showTicket());
-//    }
+        ticketSystem.ticket = DummyTicket;
+        ticketSystem.flight = DummyFlight;
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out;
+        System.setOut(new PrintStream(outputStream));
+        assertTrue(ticketSystem.showTicket());
+
+        // 获取实际输出内容
+        String actualOutput = outputStream.toString().trim();
+
+        // 恢复原始的 System.out
+        System.setOut(originalOut);
+        ticketSystem.showTicket();
+        String expectedOutput1 = "You have bought a ticket for flight SUZHOU - SHANGHAI";
+        String expectedOutput2 = "Ticket{";
+        assertTrue(actualOutput.contains(expectedOutput1));
+        assertTrue(actualOutput.contains(expectedOutput2));
+    }
 //    @Test
 //    public void testChooseBookedTicket(){
 //
@@ -204,7 +222,6 @@ public class TicketSystemTest {
 
     @Test
     public void testBuyTicketWithValidPassenger() {
-
 
         Throwable e = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             dummypassenger2 = new Passenger("Junjia", "Zhang", 0, "Man",
@@ -258,10 +275,6 @@ public class TicketSystemTest {
         Assertions.assertEquals(expectedOutput, actualOutput);
        // verify(System.out, never()).println("This ticket does not exist.");
     }
-
-
-
-
 
 
 
