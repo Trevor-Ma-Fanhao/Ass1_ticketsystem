@@ -1,7 +1,14 @@
 package org.example;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.Calendar;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 public class Flight {
     private int flightID;
@@ -9,65 +16,46 @@ public class Flight {
     private String departFrom;
     private String code;
     private String company;
-    private Timestamp dateFrom;
-    private Timestamp dateTo;
+    private String dateFrom;
+    private String dateTo;
     Airplane airplane;
-    
+
+
+
     public Flight(){}
 
+    public boolean isValidDateFormat(String date) {
+        try {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm:ss");
 
-    public static boolean isValidDateFormat(Timestamp timestamp) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
-        dateFormat.setLenient(false); // Disable leniency to enforce strict format validation
-
-        String formattedDate = dateFormat.format(timestamp);
-
-        if (!formattedDate.matches("\\d{2}/\\d{2}/\\d{2}")) {
-            return false;
+            LocalDate parsedDate = LocalDate.parse(date, dtf);
+            return true; // Format is valid
+        } catch (DateTimeParseException e) {
+            return false; // Format is invalid
         }
-
-        int day = Integer.parseInt(formattedDate.substring(0, 2));
-        int month = Integer.parseInt(formattedDate.substring(3, 5));
-        int year = Integer.parseInt(formattedDate.substring(6, 8));
-
-        if (day < 1 || day > 31 || month < 1 || month > 12 || year < 0) {
-            return false;
-        }
-
-        return true;
     }
 
-    public static boolean isValidTimeFormat(Timestamp timestamp) {
-        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-        timeFormat.setLenient(false); // Disable leniency to enforce strict format validation
+    public boolean isValidTimeFormat(String timestamp) {
+        try {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm:ss");
 
-        String formattedTime = timeFormat.format(timestamp);
-
-        if (!formattedTime.matches("\\d{2}:\\d{2}:\\d{2}")) {
-            return false;
+            LocalTime parsedTime = LocalTime.parse(timestamp, dtf);
+            return true; // Format is valid
+        } catch (DateTimeParseException e) {
+            return false; // Format is invalid
         }
-
-        int hour = Integer.parseInt(formattedTime.substring(0, 2));
-        int minute = Integer.parseInt(formattedTime.substring(3, 5));
-        int second = Integer.parseInt(formattedTime.substring(6, 8));
-
-        if (hour < 0 || hour > 23 || minute < 0 || minute > 59 || second < 0 || second > 59) {
-            return false;
-        }
-
-        return true;
     }
 
 
-    public Flight(int flight_id, String departTo, String departFrom, String code, String company, Timestamp dateFrom,Timestamp dateTo, Airplane airplane)
+    public Flight(int flight_id, String departTo, String departFrom, String code, String company, String dateFrom,String dateTo, Airplane airplane)
     {
         if (flight_id <= 0) {
             throw new IllegalArgumentException("Flight ID should be positive number");
         }
-        if (departTo == null) {
+        if (departTo == null || departTo =="") {
             throw new IllegalArgumentException("the Depart to destination cannot be empty");
         }
-        if (departFrom == null) {
+        if (departFrom == null || departFrom == "") {
             throw new IllegalArgumentException("the Depart from place cannot be empty");
         }
         if (code == null) {
@@ -76,36 +64,35 @@ public class Flight {
         if (company == null) {
             throw new IllegalArgumentException("the company cannot be empty");
         }
-        if (dateFrom == null)
-            throw new IllegalArgumentException("Date from cannot be null");
-        if (dateFrom.before(new Timestamp(System.currentTimeMillis()))) {
-            throw new IllegalArgumentException("Date from cannot before current time");
-        }
 
-        if(isValidDateFormat(dateFrom)== false)
+
+        if (!isValidDateFormat(dateFrom)) {
             throw new IllegalArgumentException("DateFrom format is invalid.");
-        if(isValidTimeFormat(dateFrom) == false)
-            throw new IllegalArgumentException("TimeFrom format is invalid.");
-
-        if(isValidDateFormat(dateTo)== false)
-            throw new IllegalArgumentException("DateTo format is invalid.");
-        if(isValidTimeFormat(dateTo) == false)
-            throw new IllegalArgumentException("TimeTo format is invalid.");
-
-        if (dateTo.before(new Timestamp(System.currentTimeMillis())) || dateTo.before(dateFrom)) {
-            throw new IllegalArgumentException("Date from cannot before current time or Date from");
         }
+        if (!isValidTimeFormat(dateFrom)) {
+            throw new IllegalArgumentException("TimeFrom format is invalid.");
+        }
+        if (!isValidDateFormat(dateTo)) {
+            throw new IllegalArgumentException("DateTo format is invalid.");
+        }
+        if (!isValidTimeFormat(dateTo)) {
+            throw new IllegalArgumentException("TimeTo format is invalid.");
+        }
+
+
         if (airplane == null) {
             throw new IllegalArgumentException("airplane cannot be empty");
         }
-            this.flightID=flight_id;
+
+
+            this.flightID = flight_id;
             this.departTo = departTo;
             this.departFrom = departFrom;
             this.code = code;
             this.company = company;
             this.airplane = airplane;
-            this.dateTo = dateTo;
             this.dateFrom = dateFrom;
+            this.dateTo = dateTo;
     }
 
 
@@ -127,7 +114,7 @@ public class Flight {
     }
 
     public void setDepartTo(String departTo) {
-        if (departTo == null) {
+        if (departTo == null || departTo.isEmpty()) {
             throw new IllegalArgumentException("the Depart to destination cannot be empty");
         }
         this.departTo = departTo;
@@ -138,11 +125,13 @@ public class Flight {
     }
 
     public void setDepartFrom(String departFrom) {
-        if (departFrom == null) {
-            throw new IllegalArgumentException("the Depart from place cannot be empty");
+        if (departFrom == null || departFrom.isEmpty()) {
+            throw new IllegalArgumentException("the Depart from place cannot be empty or null");
         }
         this.departFrom = departFrom;
     }
+
+
 
     public String getCode() {
         return code;
@@ -166,36 +155,32 @@ public class Flight {
         this.company = company;
     }
 
-    public Timestamp getDateFrom() {
+    public String getDateFrom() {
         return dateFrom;
     }
 
-    public void setDateFrom(Timestamp dateFrom) {
+    public void setDateFrom(String dateFrom) {
         if (dateFrom == null)
             throw new IllegalArgumentException("Date from cannot be null");
-        if(isValidDateFormat(dateFrom)== false)
+
+        if (!isValidDateFormat(dateFrom)) {
             throw new IllegalArgumentException("DateFrom format is invalid.");
-        if(isValidTimeFormat(dateFrom) == false)
-            throw new IllegalArgumentException("TimeFrom format is invalid.");
-        if (dateFrom.before(new Timestamp(System.currentTimeMillis()))) {
-            throw new IllegalArgumentException("Date from cannot before current time");
         }
+
         this.dateFrom = dateFrom;
     }
 
-    public Timestamp getDateTo() {
+    public String getDateTo() {
+
         return dateTo;
     }
 
-    public void setDateTo(Timestamp dateTo) {
+    public void setDateTo(String dateTo) {
         if (dateTo == null)
-            throw new IllegalArgumentException("dateTo cannot be null");
-        if(isValidDateFormat(dateTo)== false)
-            throw new IllegalArgumentException("DateTo format is invalid.");
-        if(isValidTimeFormat(dateTo) == false)
-            throw new IllegalArgumentException("TimeTo format is invalid.");
-        if (dateTo.before(new Timestamp(System.currentTimeMillis()))) {
-            throw new IllegalArgumentException("dateTo cannot before current time");
+            throw new IllegalArgumentException("Date to cannot be null");
+
+        if (!isValidDateFormat(dateTo)) {
+            throw new IllegalArgumentException("dateTo format is invalid.");
         }
 
         this.dateTo = dateTo;
@@ -225,7 +210,6 @@ public class Flight {
                     ", depart to='" + getDepartTo() + '\'' +
                     ", code=" + getCode() + '\'' +
                     ", company=" + getCompany() + '\'' +
-                    ", code=" + getCode() + '\'' +
                     '}';
     }
 }
