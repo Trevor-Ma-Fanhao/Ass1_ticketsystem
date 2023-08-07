@@ -5,19 +5,50 @@ import java.util.regex.PatternSyntaxException;
 
 public class TicketSystem {
 
-    private boolean isAlpha(String input) {
-        return input.matches("[a-zA-Z]+");
+    Scanner in = new Scanner(System.in);
+
+    Passenger passenger = new Passenger();
+    Ticket ticket = new Ticket();
+    Flight flight = new Flight();
+    private TicketCollection ticketCollection;
+    private FlightCollection flightCollection;
+
+    public TicketSystem()
+    {
+
     }
-    public class ChooseTicket{
+    public TicketSystem(TicketCollection ticketCollection,FlightCollection flightCollection,Scanner in){
+        this.ticketCollection = ticketCollection;
+
+        this.flightCollection = flightCollection;
+        this.in = in;
+    }
+
+
+//    public TicketSystem()
+//    {
+//        passenger = new Passenger();
+//        ticket = new Ticket();
+//        flight = new Flight();
+//    }
+//    public TicketSystem(Passenger passenger, Flight flight, Ticket ticket) {
+//        this.passenger = passenger;
+//        this.ticket = ticket;
+//        this.flight = flight;
+//
+//        this.ticket.setTicketStatus(true);
+//    }
+
+
 
         private boolean isAlpha(String input) {
             return input.matches("[a-zA-Z]+");
         }
-        TicketSystem.BuyTicket buyTicket = new TicketSystem.BuyTicket();
-        Scanner in = new Scanner(System.in);
 
-        public void chooseTicket(String city1, String city2) throws Exception
-        {
+        //BuyTicket buyTicket = new BuyTicket();
+
+
+        public void chooseTicket(String city1, String city2) throws Exception {
             if (!isAlpha(city1) || !isAlpha(city2)) {
                 throw new IllegalArgumentException("City names should contain only English letters.");
             }
@@ -29,15 +60,16 @@ public class TicketSystem {
             Ticket ticket = new Ticket();
 
             //search for direct flight from city1 to city2
-            System.out.println("\nEnter ID of ticket you want to choose:");
-            flight = FlightCollection.getFlightInfo(city1, city2);
-            flight.toString();
-            if(flight != null) {
 
-                TicketCollection.getAllTickets();
-                System.out.println("\nEnter ID of ticket you want to choose: 2 ");
+            flight = flightCollection.getFlightInfo(city1, city2);
+            flight.toString();
+            if (flight != null) {
+
+
+                ticketCollection.getAllTickets();
+                System.out.println("\nEnter ID of ticket you want to choose:");
                 //validate ticker here  验证是否选定的票有效
-                ticket = TicketCollection.getTicketInfo(2);
+                ticket = ticketCollection.getTicketInfo(2);
                 System.out.println("\nticket you choose is :");
                 ticket.toString();
                 if (ticket.ticketStatus() == true) {
@@ -45,14 +77,15 @@ public class TicketSystem {
                     throw new IllegalArgumentException("ticket is ordered by other people!");
                 }
                 //buy ticket here
-                buyTicket.buyTicket(2);
-            }
-            else
-            //in case there is no direct ticket from city1 to city2
+                buyTicket(2);
+                return;
+            } else
+                //in case there is no direct ticket from city1 to city2
+                System.out.println("\nin case there is no direct ticket from city1 to city2");
             {
                 //SELECT a flight where depart_to = city2
 
-                Flight depart_to = FlightCollection.getFlightInfo(city2);
+                Flight depart_to = flightCollection.getFlightInfo(city2);
 
                 //and search for city with depart_from as connector city
 
@@ -60,9 +93,9 @@ public class TicketSystem {
 
                 //SELECT * from flight where depart_to = '" + connectCity + "' and depart_from = '" + city1+"'"
 
-                Flight flightConnectingTwoCities = FlightCollection.getFlightInfo(city1, connectCity);
+                Flight flightConnectingTwoCities = flightCollection.getFlightInfo(city1, connectCity);
 
-                if(flightConnectingTwoCities != null){
+                if (flightConnectingTwoCities != null) {
 
                     System.out.println("There is special way to go there. And it is transfer way, like above. Way №" + counter);
 
@@ -75,45 +108,15 @@ public class TicketSystem {
 
                 counter++;
 
-                buyTicket.buyTicket(idFirst, idSecond); //pass two tickets and buy them
+                buyTicket(idFirst, idSecond); //pass two tickets and buy them
 
-                if(counter == 1)
-                {
+                if (counter == 1) {
                     System.out.println("There is no possible variants.");
                 }
                 return;
             }
 
-        }
 
-    }
-
-
-    public class BuyTicket <T>
-    {
-        Passenger passenger = new Passenger();
-        Ticket ticket = new Ticket();
-        Flight flight = new Flight();
-        Scanner in = new Scanner(System.in);
-
-        public BuyTicket()
-        {
-            passenger = new Passenger();
-            ticket = new Ticket();
-            flight = new Flight();
-        }
-
-        public void showTicket()
-        {
-            try
-            {
-                System.out.println("You have bought a ticket for flight " + ticket.flight.getDepartFrom() + " - " + ticket.flight.getDepartTo() + "\n\nDetails:");
-                System.out.println(this.ticket.toString());
-            }
-            catch (NullPointerException e)
-            {
-                return;
-            }
         }
 
         public void buyTicket(int ticket_id) throws Exception
@@ -122,66 +125,73 @@ public class TicketSystem {
             int flight_id = 0;
 
             //select ticket where ticket_id="+ticket_id"
-            Ticket validTicket = TicketCollection.getTicketInfo(ticket_id);
+            Ticket validTicket = ticketCollection.getTicketInfo(ticket_id);
+            ticketCollection.getAllTickets();
+            System.out.println(ticket_id);
 
             //if there is a valid ticket id was input then we buy it, otherwise show message
-            if(validTicket != null)
-            {
-                System.out.println("This ticket does not exist.");
+            if (validTicket == null) {
+                System.out.println("This ticket does not exist1111111.");
                 return;
-            }
-            else{
+            } else {
                 //select flight_id from ticket where ticket_id=" + ticket_id
 
                 flight_id = validTicket.getFlight().getFlightID();
 
-                try
-                {
+                try {
                     System.out.println("Enter your First Name: ");
                     String firstName = "";
+                    firstName = in.nextLine();
                     passenger.setFirstName(firstName);
 
 
                     System.out.println("Enter your Second name:");
                     String secondName = "";
+                    secondName = in.nextLine();
                     passenger.setSecondName(secondName); //setting passengers info
 
                     System.out.println("Enter your age:");
                     Integer age = 0;
-                    in.nextLine();
+                    age = Integer.valueOf(in.nextLine());
                     passenger.setAge(age);
 
                     System.out.println("Enter your gender: ");
                     String gender = "";
+                    gender = in.nextLine();
                     passenger.setGender(gender);
 
                     System.out.println("Enter your e-mail address");
                     String email = "";
+                    email = in.nextLine();
                     passenger.setEmail(email);
 
                     System.out.println("Enter your phone number (+7):");
                     String phoneNumber = "";
+                    phoneNumber = in.nextLine();
                     passenger.setPhoneNumber(phoneNumber);
 
                     System.out.println("Enter your passport number:");
                     String passportNumber = "";
+                    passportNumber = in.nextLine();
                     passenger.setPassport(passportNumber);
 
                     System.out.println("Do you want to purchase?\n 1-YES 0-NO");
+                    System.out.println("111");
                     int purch = in.nextInt();
-                    if (purch == 0)
-                    {
+                    //判断是否继续购买
+                    if (purch == 0) {
                         return;
-                    } else
-                    {
+                    } else {
 
-                        flight = FlightCollection.getFlightInfo(flight_id);
+
+                        flight = flightCollection.getFlightInfo(flight_id);
 
                         int airplane_id = flight.getAirplane().getAirplaneID();
+                        System.out.println(airplane_id);
 
                         Airplane airplane = Airplane.getAirPlaneInfo(airplane_id);
 
-                        ticket = TicketCollection.getTicketInfo(ticket_id);
+                        ticket = ticketCollection.getTicketInfo(ticket_id);
 
                         ticket.setPassenger(passenger);
                         ticket.setTicket_id(ticket_id);
@@ -189,11 +199,9 @@ public class TicketSystem {
                         ticket.setPrice(ticket.getPrice());
                         ticket.setClassVip(ticket.getClassVip());
                         ticket.setTicketStatus(true);
-                        if (ticket.getClassVip() == true)
-                        {
+                        if (ticket.getClassVip() == true) {
                             airplane.setBusinessSitsNumber(airplane.getBusinessSitsNumber() - 1);
-                        } else
-                        {
+                        } else {
                             airplane.setEconomySitsNumber(airplane.getEconomySitsNumber() - 1);
                         }
 
@@ -202,22 +210,26 @@ public class TicketSystem {
 
                     System.out.println("Enter your card number:");
                     String cardNumber = "";
+                    cardNumber = in.nextLine();
                     passenger.setCardNumber(cardNumber);
 
                     System.out.println("Enter your security code:");
                     Integer securityCode = 0;
+                    securityCode = Integer.valueOf(in.nextLine());
                     passenger.setSecurityCode(securityCode);
+                    System.out.println("Success");
 
 
-                } catch (PatternSyntaxException patternException)
-                {
+
+                } catch (PatternSyntaxException patternException) {
                     patternException.printStackTrace();
                 }
+
             }
+
         }
 
-        @SuppressWarnings("null")
-        public void buyTicket(int ticket_id_first, int ticket_id_second) throws Exception{
+        public void buyTicket(int ticket_id_first, int ticket_id_second) throws Exception {
             //method for buying two tickets with transfer flight
             int flight_id_first = 0;
 
@@ -226,30 +238,25 @@ public class TicketSystem {
 
             System.out.println(ticket_id_first + " " + ticket_id_second);
 
-            Ticket validTicketfirst = TicketCollection.getTicketInfo(ticket_id_first);
+            Ticket validTicketfirst = ticketCollection.getTicketInfo(ticket_id_first);
 
-            Ticket validTicketSecond = TicketCollection.getTicketInfo(ticket_id_first);
+            Ticket validTicketSecond = ticketCollection.getTicketInfo(ticket_id_first);
 
 
             System.out.println("Processing...");
 
             //if there is a valid ticket id was input then we buy it, otherwise show message
 
-            if(validTicketfirst!=null || validTicketSecond!=null)
-            {
+            if (validTicketfirst != null || validTicketSecond != null) {
                 System.out.println("This ticket does not exist.");
                 return;
-            }
-
-            else
-            {
+            } else {
                 flight_id_first = validTicketfirst.getFlight().getFlightID();
 
                 flight_id_second = validTicketfirst.getFlight().getFlightID();
 
 
-                try
-                {
+                try {
                     System.out.println("Enter your First Name: ");
                     String firstName = "";
                     passenger.setFirstName(firstName);
@@ -282,29 +289,26 @@ public class TicketSystem {
 
                     System.out.println("Do you want to purchase?\n 1-YES 0-NO");
                     int purch = in.nextInt();
-                    if (purch == 0)
-                    {
+                    if (purch == 0) {
                         return;
-                    }
-                    else
-                    {
+                    } else {
 
                         //  "select * from flight, airplane where flight_id=" + flight_id_first + " and flight.airplane_id=airplane.airplane_id");
-                        Flight flight_first = FlightCollection.getFlightInfo(flight_id_first);
+                        Flight flight_first = flightCollection.getFlightInfo(flight_id_first);
 
                         int airplane_id_first = flight_first.getAirplane().getAirplaneID();
 
                         Airplane airplane_first = Airplane.getAirPlaneInfo(airplane_id_first);
 
-                        Flight flight_second = FlightCollection.getFlightInfo(flight_id_second);
+                        Flight flight_second = flightCollection.getFlightInfo(flight_id_second);
 
                         int airplane_id_second = flight_second.getAirplane().getAirplaneID();
 
-                        Airplane airpairplane_second  = Airplane.getAirPlaneInfo(airplane_id_second);
+                        Airplane airpairplane_second = Airplane.getAirPlaneInfo(airplane_id_second);
 
-                        Ticket ticket_first = TicketCollection.getTicketInfo(ticket_id_first);
+                        Ticket ticket_first = ticketCollection.getTicketInfo(ticket_id_first);
 
-                        Ticket ticket_second = TicketCollection.getTicketInfo(ticket_id_second);
+                        Ticket ticket_second = ticketCollection.getTicketInfo(ticket_id_second);
 
                         ticket_first.setPassenger(passenger);
                         ticket_first.setTicket_id(ticket_id_first);
@@ -313,11 +317,9 @@ public class TicketSystem {
                         ticket_first.setClassVip(ticket_first.getClassVip());
                         ticket_first.setTicketStatus(true);
 
-                        if (ticket_first.getClassVip() == true)
-                        {
+                        if (ticket_first.getClassVip() == true) {
                             airplane_first.setBusinessSitsNumber(airplane_first.getBusinessSitsNumber() - 1);
-                        } else
-                        {
+                        } else {
                             airplane_first.setEconomySitsNumber(airplane_first.getEconomySitsNumber() - 1);
                         }
 
@@ -329,11 +331,9 @@ public class TicketSystem {
                         ticket_second.setPrice(ticket_second.getPrice());
                         ticket_second.setClassVip(ticket_second.getClassVip());
                         ticket_second.setTicketStatus(true);
-                        if (ticket_second.getClassVip() == true)
-                        {
+                        if (ticket_second.getClassVip() == true) {
                             airpairplane_second.setBusinessSitsNumber(airpairplane_second.getBusinessSitsNumber() - 1);
-                        } else
-                        {
+                        } else {
                             airpairplane_second.setEconomySitsNumber(airpairplane_second.getEconomySitsNumber() - 1);
                         }
 
@@ -353,8 +353,7 @@ public class TicketSystem {
                         passenger.setSecurityCode(securityCode);
 
                     }
-                } catch (PatternSyntaxException patternException)
-                {
+                } catch (PatternSyntaxException patternException) {
                     patternException.printStackTrace();
                 }
             }
@@ -362,5 +361,3 @@ public class TicketSystem {
         }
 
     }
-
-}

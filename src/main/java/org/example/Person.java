@@ -38,14 +38,20 @@ public class Person //abstract class Person
     }
 
     public void setAge(int age) {
+        if ( age < 1 || age > 100 ){
+        throw new IllegalArgumentException("age should be in 1-100");
+        }
         this.age = age;
     }
-
     public String getGender() {
         return gender;
     }
 
     public void setGender(String gender) {
+        if (!gender.equals("Woman") && !gender.equals("Man") && !gender.equals("Non-binary | gender diverse")
+                && !gender.equals("Prefer not to say") && !gender.equals("Other")) {
+            throw new IllegalArgumentException("gender should be one of 5");
+        }
         this.gender = gender;
     }
 
@@ -58,10 +64,16 @@ public class Person //abstract class Person
     }
 
     public void setFirstName(String firstName) {
+        if (!firstName.matches("[a-zA-Z]+")) {
+            throw new IllegalArgumentException("firstName should only contain alphabets");
+        }
         this.firstName = firstName;
     }
 
     public void setSecondName(String secondName) {
+        if ( !secondName.matches("[a-zA-Z]+")) {
+            throw new IllegalArgumentException("secondName should only contain alphabets");
+        }
         this.secondName = secondName;
     }
 

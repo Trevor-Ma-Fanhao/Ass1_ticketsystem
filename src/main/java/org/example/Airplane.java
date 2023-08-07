@@ -124,8 +124,12 @@ public class Airplane
 
 
     public static Airplane getAirPlaneInfo(int airplane_id) {
+
+        Airplane airplane = new Airplane(888,"C919",100,50,10);
+
+        return airplane;
         // TODO Auto-generated method stub
 
-        return null;
+
     }
 }

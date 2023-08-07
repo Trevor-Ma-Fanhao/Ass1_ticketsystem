@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-
+import static org.mockito.Mockito.*;
 
 public class TicketTest {
 
@@ -15,11 +15,65 @@ public class TicketTest {
     private Flight flight;
     private Passenger passenger;
 
+    //Ticket ticket;
+    static Flight mockFlight;
+    static FlightCollection mockFlightCollection;
+    static Passenger mockPassenger;
+    static Airplane mockAirplane;
+
+    @BeforeAll
+    static void initAll() {
+        mockFlight = mock(Flight.class);
+        mockPassenger = mock(Passenger.class);
+        mockFlightCollection = mock(FlightCollection.class);
+        mockAirplane = mock(Airplane.class);
+        mockStatic(FlightCollection.class);
+    }
+
     @BeforeEach
-    public void setUp() {
-        flight = new Flight();
-        passenger = new Passenger();
-        ticket = new Ticket(1, 100, flight, false, passenger);
+    void init() {
+        ticket = new Ticket(2345, 123, mockFlight, false, mockPassenger);
+    }
+
+
+//    @BeforeEach
+//    public void setUp() {
+//        flight = new Flight();
+//        passenger = new Passenger();
+//        ticket = new Ticket(1, 100, flight, false, passenger);
+//    }
+
+    @Test
+    public void testGetTicketId() {
+        Ticket ticket = new Ticket();
+
+        ticket.setTicket_id(5);
+
+        assertNotEquals(0, ticket.getTicket_id());
+    }
+
+    @Test
+    public void testSetPriceWithNegativeValue() {
+        // 创建一个 Ticket 对象
+        Ticket ticket = new Ticket();
+
+        // 将价格设置为负数
+        int price = -50;
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {ticket.setPrice(price);
+        });
+    }
+
+    @Test
+    public void testSetPriceWithZeroValue() {
+        // 创建一个 Ticket 对象
+        Ticket ticket = new Ticket();
+
+        // 将价格设置为负数
+        int price = 0;
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {ticket.setPrice(price);
+        });
     }
 
 
@@ -34,6 +88,40 @@ public class TicketTest {
         ticket.setTicketStatus(false);
         Assertions.assertFalse(ticket.ticketStatus());
     }
+
+    @Test
+    void testTicketPriceForUnder15() {
+        when(mockPassenger.getAge()).thenReturn(14);
+        ticket.setPrice(1000);
+        ticket.setTicketStatus(true);
+        assertEquals(1000 * 0.5 * 1.12, ticket.getPrice());
+        assertTrue(ticket.ticketStatus());
+    }
+
+    @Test
+    void testTicketPriceForBetween15And60() {
+        when(mockPassenger.getAge()).thenReturn(15);
+        ticket.setPrice(1000);
+        ticket.setTicketStatus(true);
+        assertEquals(1000 * 1.12, ticket.getPrice());
+        assertTrue(ticket.ticketStatus());
+
+        when(mockPassenger.getAge()).thenReturn(59);
+        ticket.setPrice(1000);
+        ticket.setTicketStatus(true);
+        assertEquals(1000 * 1.12, ticket.getPrice());
+        assertTrue(ticket.ticketStatus());
+    }
+
+    @Test
+    void testTicketPriceForOver60() {
+        when(mockPassenger.getAge()).thenReturn(60);
+        ticket.setPrice(1000);
+        ticket.setTicketStatus(true);
+        assertEquals(0, ticket.getPrice());
+        assertTrue(ticket.ticketStatus());
+    }
+
 
     //2. Discount is always applied based on the age category of the passenger.
     @Test
@@ -61,6 +149,17 @@ public class TicketTest {
         ticket.setPassenger(passenger3);
         ticket.setPrice(ticket.getPrice());
         assertEquals(0, ticket.getPrice()); // The price should be discounted to 0 for passengers aged 60 or above
+
+
+
+        Passenger passenger5 = new Passenger("Bob", "Johnson", 99, "Man", "bob@example.com", "+61456789012", "GHI789", "5678901234", 789);
+        passenger5.setAge(99);
+        ticket.setPassenger(passenger5);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {ticket.setPrice(ticket.getPrice());;
+        });
+
+
     }
 
   //  Price is always applied to a ticket.
@@ -98,7 +197,20 @@ public class TicketTest {
         ticket.serviceTax();
         Assertions.assertEquals(112, ticket.getPrice()); // Assuming service tax is correctly applied
     }
-//Ticker class receives valid information of flight and passenger.
+
+    @Test
+    @DisplayName("testGetClassVip")
+    public void testGetClassVip() {
+        // Create a ticket with classVip set to false
+        Ticket ticket1 = new Ticket(1, 100, flight, false, passenger);
+        assertFalse(ticket1.getClassVip()); // Should return false
+
+        // Create another ticket with classVip set to true
+        Ticket ticket2 = new Ticket(2, 200, flight, true, passenger);
+        assertTrue(ticket2.getClassVip()); // Should still return false
+    }
+
+    //Ticker class receives valid information of flight and passenger.
     @Test
     public void testGetSetFlight() {
         Flight flight = new Flight();
@@ -114,6 +226,56 @@ public class TicketTest {
         ticket.setPassenger(passenger);
         Assertions.assertEquals(passenger, ticket.getPassenger());
     }
+    @Test
+    @DisplayName("testSetClassVip")
+    public void testSetClassVip() {
+        // Create a Ticket object
+        Ticket ticket = new Ticket(1, 100, flight, false, passenger);
+
+        // Verify the initial value of classVip
+        assertFalse(ticket.getClassVip()); // Should be false
+
+        // Set classVip to true
+        ticket.setClassVip(true);
+
+        // Verify the updated value of classVip
+        assertTrue(ticket.getClassVip()); // Should be true
+
+        // Set classVip back to false
+        ticket.setClassVip(false);
+
+        // Verify the value of classVip after resetting
+        assertFalse(ticket.getClassVip()); // Should be false
+    }
+
+
+    @Test
+    @DisplayName("testToString")
+    public void testToString() {
+        // Create a sample Passenger
+        Passenger passenger = new Passenger("John", "Doe", 30, "Man", "johndoe@example.com", "+61456789012", "ABC123", "1234567890", 123);
+
+        // Create a sample Flight
+
+
+        // Create a Ticket object
+        Ticket ticket = new Ticket(1, 100, mockFlight, true, passenger);
+
+        // Get the expected string representation
+        String expectedString = "Ticket{" + '\n' +
+                "Price=100KZT, " + '\n' +
+                mockFlight.toString() + '\n' + // Assuming Flight's toString() method is correctly implemented
+                "Vip status=true" + '\n' +
+                passenger.toString() + '\n' + // Assuming Passenger's toString() method is correctly implemented
+                "Ticket was purchased=false\n}"; // Assuming ticketStatus() method correctly returns "Not Purchased"
+
+        // Get the actual string representation using toString() method
+        String actualString = ticket.toString();
+
+        // Compare the expected and actual strings
+        assertEquals(expectedString, actualString);
+    }
+
 
 
 
