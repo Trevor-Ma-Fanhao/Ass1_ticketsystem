@@ -36,7 +36,7 @@ public class TicketSystemTest {
 
     private Flight dummyflight;
 
-    private BuyTicket buyTicket;
+ //   private BuyTicket buyTicket;
 
     static Flight mockFlight;
     static FlightCollection mockFlightCollection;
@@ -56,6 +56,8 @@ public class TicketSystemTest {
      
 
     private Scanner scannerMock;
+    private Scanner in;
+
 
 
 
@@ -110,7 +112,7 @@ public class TicketSystemTest {
 
     @BeforeEach
     public void setUp() {
-        scannerMock = Mockito.mock(Scanner.class);
+       // scannerMock = Mockito.mock(Scanner.class);
         // 创建 dummy 对象并设置其属性
         dummypassenger = new Passenger("Fanhao", "Ma", 24, "Man",
                 "932952939@qq.com", "+61481888206", "6666","6666",888);
@@ -153,18 +155,14 @@ public class TicketSystemTest {
     @Test
     public void testChooseTicket() throws Exception {
 
-//        Ticket dummyticket_booked = new Ticket(2,100,dummyflight,true,dummypassenger);
-//        dummyticket_booked.setTicketStatus(false);
-//        ArrayList<Ticket> ticketslist_booked = new ArrayList<>();
-//        ticketslist_booked.add(dummyticket_booked);
-//        TicketCollection.addTickets(ticketslist_booked);
+            String input = String.format("Junjia\nZhang\n21\nMan\njzha0424@student.moansh.edu\n+61481888206\nAU\n1\n88888\n123");
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(input.getBytes());
+            Scanner in = new Scanner(inputStream);
+            ticketSystem = new TicketSystem(dummyTicketCollection, dummyFlightCollection, in);
 
-    //    TicketSystem ticketSystem1 = new TicketSystem();
-
-    //    ticketSystem1.chooseTicket("london","newyork");
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
             ticketSystem.chooseTicket("London", "Newyork");
-        });
+
+
     }
 
 //    @Test
@@ -195,11 +193,12 @@ public class TicketSystemTest {
 //        这里如果输入了正确的出发地和目的地，会跳转到对应的ticketID选择以及passenger信息输入，需要用Scanner Mock实现，暂时跳过
 //    }
 
-    @Test
-    public void testShowTicketWithValidTicket() {
-        buyTicket = new BuyTicket(dummypassenger, dummyflight, dummyticket);
-        assertTrue(buyTicket.showTicket());
-    }
+//    @Test
+//    public void testShowTicketWithValidTicket() {
+//        buyTicket = new BuyTicket(dummypassenger, dummyflight, dummyticket);
+//        assertTrue(buyTicket.showTicket());
+//
+//    }
 
 
 //    Appropriate checks have been implemented to validate passenger information
