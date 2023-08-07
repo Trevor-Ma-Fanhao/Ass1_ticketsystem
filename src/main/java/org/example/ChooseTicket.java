@@ -10,6 +10,7 @@ public class ChooseTicket{
 	}
 	BuyTicket buyTicket = new BuyTicket();
 	Scanner in = new Scanner(System.in);
+	TicketCollection ticketCollection = new TicketCollection();
 
     public void chooseTicket(String city1, String city2) throws Exception
     {
@@ -30,10 +31,10 @@ public class ChooseTicket{
         if(flight != null) {
 
 
-        	TicketCollection.getAllTickets();
+        	ticketCollection.getAllTickets();
 	        System.out.println("\nEnter ID of ticket you want to choose:");
 	        //validate ticker here  验证是否选定的票有效
-			ticket = TicketCollection.getTicketInfo(2);
+			ticket = ticketCollection.getTicketInfo(2);
 			System.out.println("\nticket you choose is :");
 			ticket.toString();
 			if (ticket.ticketStatus() == true){

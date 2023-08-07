@@ -13,6 +13,8 @@ public class BuyTicket <T>
     Flight flight = new Flight();
     Scanner in = new Scanner(System.in);
 
+    TicketCollection ticketCollection = new TicketCollection();
+
     public BuyTicket()
     {
          passenger = new Passenger();
@@ -47,7 +49,7 @@ public class BuyTicket <T>
         int flight_id = 0;
 
         //select ticket where ticket_id="+ticket_id"
-        Ticket validTicket = TicketCollection.getTicketInfo(ticket_id);
+        Ticket validTicket = ticketCollection.getTicketInfo(ticket_id);
        
         //if there is a valid ticket id was input then we buy it, otherwise show message
         if(validTicket != null)
@@ -107,7 +109,7 @@ public class BuyTicket <T>
 	                	
 	                    Airplane airplane = Airplane.getAirPlaneInfo(airplane_id);
 	                 
-	                    ticket = TicketCollection.getTicketInfo(ticket_id);
+	                    ticket = ticketCollection.getTicketInfo(ticket_id);
 	                    
 	                	ticket.setPassenger(passenger);
 	                    ticket.setTicket_id(ticket_id);
@@ -152,9 +154,9 @@ public class BuyTicket <T>
    
         System.out.println(ticket_id_first + " " + ticket_id_second);
         
-        Ticket validTicketfirst = TicketCollection.getTicketInfo(ticket_id_first);
+        Ticket validTicketfirst = ticketCollection.getTicketInfo(ticket_id_first);
         
-        Ticket validTicketSecond = TicketCollection.getTicketInfo(ticket_id_first);
+        Ticket validTicketSecond = ticketCollection.getTicketInfo(ticket_id_first);
         
       
         System.out.println("Processing...");
@@ -228,9 +230,9 @@ public class BuyTicket <T>
                 	
                     Airplane airpairplane_second  = Airplane.getAirPlaneInfo(airplane_id_second);
                  
-                    Ticket ticket_first = TicketCollection.getTicketInfo(ticket_id_first);
+                    Ticket ticket_first = ticketCollection.getTicketInfo(ticket_id_first);
                     
-                    Ticket ticket_second = TicketCollection.getTicketInfo(ticket_id_second);
+                    Ticket ticket_second = ticketCollection.getTicketInfo(ticket_id_second);
     	             
                     ticket_first.setPassenger(passenger);
                     ticket_first.setTicket_id(ticket_id_first);

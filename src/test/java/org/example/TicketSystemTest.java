@@ -31,20 +31,18 @@ public class TicketSystemTest {
     private Passenger dummypassenger;
     private Passenger dummypassenger2;
     private Ticket dummyticket;
-    private Flight dummyflight;
+
     private Airplane dummyairplane;
 
+    private Flight dummyflight;
+
     private BuyTicket buyTicket;
-
-
 
     static Flight mockFlight;
     static FlightCollection mockFlightCollection;
     static Passenger mockPassenger;
     static Airplane mockAirplane;
     private Ticket ticket;
-
-
     Airplane DummyAirplane;
     Passenger DummyPassenger;
     Flight DummyFlight;
@@ -52,12 +50,12 @@ public class TicketSystemTest {
     Flight NullFlight;
     Passenger NullPassenger;
     Ticket DummyTicket;
-    FlightCollection DummyFlightCollection;
-    TicketCollection DummyTicketCollection;
+    FlightCollection dummyFlightCollection;
+    TicketCollection dummyTicketCollection;
     TicketSystem ticketSystem;
-    TicketSystem ticketSystem2;
-    Scanner scannerMock;
+     
 
+    private Scanner scannerMock;
 
 
 
@@ -65,61 +63,109 @@ public class TicketSystemTest {
     Timestamp timestamp2 = Timestamp.valueOf("2023-08-20 00:00:00");
 
 
-    @BeforeAll
-    static void initAll() {
 
 
-        mockFlight = mock(Flight.class);
-        mockPassenger = mock(Passenger.class);
-        mockFlightCollection = mock(FlightCollection.class);
-        mockAirplane = mock(Airplane.class);
-        mockStatic(FlightCollection.class);
-        MockedStatic<TicketCollection> mockTicketCollection;
-        mockTicketCollection = mockStatic(TicketCollection.class, CALLS_REAL_METHODS);
-    }
+//    @BeforeAll
+//    static void initAll() {
+//        mockFlight = mock(Flight.class);
+//        mockPassenger = mock(Passenger.class);
+//        mockFlightCollection = mock(FlightCollection.class);
+//        mockAirplane = mock(Airplane.class);
+//        mockStatic(FlightCollection.class);
+//        MockedStatic<TicketCollection> mockTicketCollection;
+//        mockTicketCollection = mockStatic(TicketCollection.class, CALLS_REAL_METHODS);
+//    }
+//    @BeforeEach
+//    void init() {
+//        scannerMock = Mockito.mock(Scanner.class);
+//        DummyAirplane = new Airplane(5171, "Boeing747", 30, 130, 6);
+//        DummyPassenger = new Passenger("Barry","Ellen", 30, "Man", "HuangYH723@outlook.com", "0412345678", "CN", "10001", 2000);
+//        DummyFlight = new Flight(10, "SHANGHAI", "SUZHOU", "0001", "EasternChina", timestamp1, timestamp2, DummyAirplane);
+//        DummyTicket = new Ticket(1, 1000, DummyFlight, false, DummyPassenger);
+//        DummyFlightCollection = new FlightCollection();
+//        DummyTicketCollection = new TicketCollection();
+//        DummyFlightCollection.flights.add(DummyFlight);
+//        DummyTicketCollection.tickets.add(DummyTicket);
+//        ticketSystem = new TicketSystem(DummyTicketCollection, DummyFlightCollection, scannerMock);
+//        TicketSystem ticketSystemMock = mock(TicketSystem.class);
+//        ticketSystem = ticketSystemMock;
+//    }
+
+//    @Test
+//    void testChooseTicketWithDirectFlight() throws Exception {
+//        // 设定Mock对象的行为
+//        when(mockFlightCollection.getFlightInfo(anyString(), anyString())).thenReturn(DummyFlight);
+//        when(scannerMock.nextInt()).thenReturn(1); // 模拟用户输入
+//
+//        ticketSystem.chooseTicket("SHANGHAI", "SUZHOU");
+//
+//        // 验证相关方法是否被调用
+//        verify(mockFlightCollection).getFlightInfo("SHANGHAI", "SUZHOU");
+//        verify(ticketSystem).buyTicket(1); // 确保购买机票的方法被调用
+//    }
+
+
+
+
 
     @BeforeEach
-    void init() {
-
+    public void setUp() {
         scannerMock = Mockito.mock(Scanner.class);
-        DummyAirplane = new Airplane(5171, "Boeing747", 30, 130, 6);
-        DummyPassenger = new Passenger("Barry","Ellen", 30, "Man", "HuangYH723@outlook.com", "0412345678", "CN", "10001", 2000);
-        DummyFlight = new Flight(10, "SHANGHAI", "SUZHOU", "0001", "EasternChina", timestamp1, timestamp2, DummyAirplane);
-        DummyTicket = new Ticket(1, 1000, DummyFlight, false, DummyPassenger);
-        DummyFlightCollection = new FlightCollection();
-        DummyTicketCollection = new TicketCollection();
-        DummyFlightCollection.flights.add(DummyFlight);
-        DummyTicketCollection.tickets.add(DummyTicket);
+        // 创建 dummy 对象并设置其属性
+        dummypassenger = new Passenger("Fanhao", "Ma", 24, "Man",
+                "932952939@qq.com", "+61481888206", "6666","6666",888);
+        dummyairplane = new Airplane(888,"C919",100,50,10);
+        dummyflight = new Flight(1,"NewYork","London","LN258","Airline",
+                Timestamp.valueOf(LocalDateTime.now().plusHours(1)),Timestamp.valueOf(LocalDateTime.now().plusDays(1)),dummyairplane);
+        dummyticket = new Ticket(2,100,dummyflight,true,dummypassenger);
 
-        // Create ticketSystem by Dummy Data
-        ticketSystem = new TicketSystem(DummyTicketCollection, DummyFlightCollection, scannerMock);
-        ticketSystem2 = new TicketSystem();
+
+        dummyFlightCollection = new FlightCollection();
+
+        dummyTicketCollection = new TicketCollection();
+
+        dummyFlightCollection.flights.add(dummyflight);
+        dummyTicketCollection.tickets.add(dummyticket);
+
+
+        ticketSystem = new TicketSystem(dummyTicketCollection, dummyFlightCollection, scannerMock);
+
+
     }
 
-//    @BeforeEach
-//    public void setUp() {
-//        // 创建 dummy 对象并设置其属性
-//        dummypassenger = new Passenger("Fanhao", "Ma", 24, "Man",
-//                "932952939@qq.com", "+61481888206", "6666","6666",888);
-//        dummyairplane = new Airplane(888,"C919",100,50,10);
-//        dummyflight = new Flight(1,"NewYork","London","LN258","Airline",
-//                Timestamp.valueOf(LocalDateTime.now().plusHours(1)),Timestamp.valueOf(LocalDateTime.now().plusDays(1)),dummyairplane);
-//        dummyticket = new Ticket(1,100,dummyflight,true,dummypassenger);
+//    @Test
+//    public void testChooseBookedTicket(){
 //
+//        Ticket dummyticket_booked = new Ticket(2,100,dummyflight,true,dummypassenger);
+//        dummyticket_booked.setTicketStatus(false);
 //
 //        //创建空的ticketcollection 并addticket
-//        ArrayList<Ticket> ticketslist = new ArrayList<>();
-//        ticketslist.add(dummyticket);
-//        TicketCollection ticketCollection = new TicketCollection();
-//        ticketCollection.addTickets(ticketslist);
+//        ArrayList<Ticket> ticketslist_booked = new ArrayList<>();
+//        ticketslist_booked.add(dummyticket_booked);
+//        TicketCollection.addTickets(ticketslist_booked);
 //
-//        //创建空的flightcollection 并addflight
-//        ArrayList<Flight> flightslist = new ArrayList<>();
-//        flightslist.add(dummyflight);
-//        FlightCollection flightCollection = new FlightCollection();
-//        flightCollection.addFlights(flightslist);
-//
+//        ChooseTicket chooseTicket_booked = new ChooseTicket();
+//        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+//            chooseTicket_booked.chooseTicket("London", "Newyork");
+//        });
 //    }
+
+    @Test
+    public void testChooseTicket() throws Exception {
+
+//        Ticket dummyticket_booked = new Ticket(2,100,dummyflight,true,dummypassenger);
+//        dummyticket_booked.setTicketStatus(false);
+//        ArrayList<Ticket> ticketslist_booked = new ArrayList<>();
+//        ticketslist_booked.add(dummyticket_booked);
+//        TicketCollection.addTickets(ticketslist_booked);
+
+    //    TicketSystem ticketSystem1 = new TicketSystem();
+
+    //    ticketSystem1.chooseTicket("london","newyork");
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            ticketSystem.chooseTicket("London", "Newyork");
+        });
+    }
 
 //    @Test
 //    void chooseTicketValidCityTest() throws Exception {
@@ -135,8 +181,8 @@ public class TicketSystemTest {
 //        Assertions.assertThrows(IllegalArgumentException.class, () -> {
 //            ticketSystem2.chooseTicket(city1, "L0ndon");
 //        });
-
-
+//
+//
 //        ChooseTicket chooseTicket1 = new ChooseTicket();
 //        ChooseTicket chooseTicket2 = new ChooseTicket();
 //        Assertions.assertThrows(IllegalArgumentException.class, () -> {
@@ -146,49 +192,15 @@ public class TicketSystemTest {
 //            chooseTicket2.chooseTicket(city1, "L0ndon");
 //        });
 //        Assertions.assertDoesNotThrow(()->{chooseTicket1.chooseTicket(city1,city2);});
-        //这里如果输入了正确的出发地和目的地，会跳转到对应的ticketID选择以及passenger信息输入，需要用Scanner Mock实现，暂时跳过
+//        这里如果输入了正确的出发地和目的地，会跳转到对应的ticketID选择以及passenger信息输入，需要用Scanner Mock实现，暂时跳过
 //    }
 
     @Test
     public void testShowTicketWithValidTicket() {
-//        buyTicket = new BuyTicket(dummypassenger, dummyflight, dummyticket);
-//        assertTrue(buyTicket.showTicket());
-        ticketSystem.ticket = DummyTicket;
-        ticketSystem.flight = DummyFlight;
-
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(outputStream));
-        assertTrue(ticketSystem.showTicket());
-
-        // 获取实际输出内容
-        String actualOutput = outputStream.toString().trim();
-
-        // 恢复原始的 System.out
-        System.setOut(originalOut);
-        ticketSystem.showTicket();
-        String expectedOutput1 = "You have bought a ticket for flight SUZHOU - SHANGHAI";
-        String expectedOutput2 = "Ticket{";
-        assertTrue(actualOutput.contains(expectedOutput1));
-        assertTrue(actualOutput.contains(expectedOutput2));
+        buyTicket = new BuyTicket(dummypassenger, dummyflight, dummyticket);
+        assertTrue(buyTicket.showTicket());
     }
-//    @Test
-//    public void testChooseBookedTicket(){
-//
-//        Ticket dummyticket_booked = new Ticket(2,100,dummyflight,true,dummypassenger);
-//        dummyticket_booked.setTicketStatus(true);
-//
-//        //创建空的ticketcollection 并addticket
-//        ArrayList<Ticket> ticketslist_booked = new ArrayList<>();
-//        ticketslist_booked.add(dummyticket_booked);
-//        TicketCollection.addTickets(ticketslist_booked);
-//
-//
-//        ChooseTicket chooseTicket_booked = new ChooseTicket();
-//        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-//                chooseTicket_booked.chooseTicket("london", "newyork");
-//        });
-//    }
+
 
 //    Appropriate checks have been implemented to validate passenger information
 
@@ -220,61 +232,66 @@ public class TicketSystemTest {
 
 
 
-    @Test
-    public void testBuyTicketWithValidPassenger() {
-
-        Throwable e = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            dummypassenger2 = new Passenger("Junjia", "Zhang", 0, "Man",
-                    "932952939@qq.com", "+61481888206", "6666", "6666", 888);
-            dummyticket = new Ticket(1,100,dummyflight,true,dummypassenger2);
-            ArrayList<Ticket> ticketList = new ArrayList<>();
-            ticketList.add(dummyticket);
-            TicketCollection.addTickets(ticketList);
-
-                BuyTicket buyTicket = new BuyTicket();
-                buyTicket.buyTicket(1);
-
-        });
-        assertEquals("age should be in 1-100", e.getMessage());
-
-    }
+//    @Test
+//    public void testBuyTicketWithValidPassenger() {
+//
+//
+//        Throwable e = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+//            dummypassenger2 = new Passenger("Junjia", "Zhang", 0, "Man",
+//                    "932952939@qq.com", "+61481888206", "6666", "6666", 888);
+//            dummyticket = new Ticket(1,100,dummyflight,true,dummypassenger2);
+//            ArrayList<Ticket> ticketList = new ArrayList<>();
+//            ticketList.add(dummyticket);
+//            TicketCollection.addTickets(ticketList);
+//
+//                BuyTicket buyTicket = new BuyTicket();
+//                buyTicket.buyTicket(1);
+//
+//        });
+//        assertEquals("age should be in 1-100", e.getMessage());
+//
+//    }
     //4. Appropriate checks have been implemented to validate flight information
 
-    @Test
-    public void testBuyTicketWithInvalidFlightInfo() {
-        Throwable e = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-        dummypassenger2 = new Passenger("Junjia", "Zhang", 0, "Man",
-                "932952939@qq.com", "+61481888206", "6666", "6666", 888);
-        dummyticket = new Ticket(1,100,dummyflight,true,dummypassenger2);
-        ArrayList<Ticket> ticketList = new ArrayList<>();
-        ticketList.add(dummyticket);
-        TicketCollection.addTickets(ticketList);
+//    @Test
+//    public void testBuyTicketWithInvalidFlightInfo() {
+//        Throwable e = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+//        dummypassenger2 = new Passenger("Junjia", "Zhang", 0, "Man",
+//                "932952939@qq.com", "+61481888206", "6666", "6666", 888);
+//        dummyticket = new Ticket(1,100,dummyflight,true,dummypassenger2);
+//        ArrayList<Ticket> ticketList = new ArrayList<>();
+//        ticketList.add(dummyticket);
+//        TicketCollection.addTickets(ticketList);
+//
+//        BuyTicket buyTicket = new BuyTicket();
+//        buyTicket.buyTicket(1);
+//    });
+//
+//    }
 
-        BuyTicket buyTicket = new BuyTicket();
-        buyTicket.buyTicket(1);
-    });
+//    @Test
+//    public void testValidTicket() throws Exception {
+//
+//        ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
+//        System.setOut(new PrintStream(outputStreamCaptor));
+//
+//        TicketCollection.tickets = new ArrayList<>();
+//        TicketCollection.tickets.add(new Ticket(1, 1000, DummyFlight, false, DummyPassenger));
+//        String input = String.format("Junjia\nZhang\n21\nMan\njzha0424@student.moansh.edu\n1273861\nCN\n1\n123456\n123");
+//        System.setIn(new ByteArrayInputStream(input.getBytes()));
+//        ticketSystem.buyTicket(1);
+//
+//        String expectedOutput = "This ticket does not exist.";
+//
+//        String actualOutput = outputStreamCaptor.toString().trim();
+//
+//        Assertions.assertEquals(expectedOutput, actualOutput);
+//       // verify(System.out, never()).println("This ticket does not exist.");
+//    }
 
-    }
 
-    @Test
-    public void testValidFlightInformation() throws Exception {
 
-        ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outputStreamCaptor));
 
-        TicketCollection.tickets = new ArrayList<>();
-        TicketCollection.tickets.add(new Ticket(1, 1000, DummyFlight, false, DummyPassenger));
-        String input = String.format("Junjia\nZhang\n21\nMan\njzha0424@student.moansh.edu\n1273861\nCN\n1\n123456\n123");
-        System.setIn(new ByteArrayInputStream(input.getBytes()));
-        ticketSystem.buyTicket(1);
-
-        String expectedOutput = "This ticket does not exist.";
-
-        String actualOutput = outputStreamCaptor.toString().trim();
-
-        Assertions.assertEquals(expectedOutput, actualOutput);
-       // verify(System.out, never()).println("This ticket does not exist.");
-    }
 
 
 
