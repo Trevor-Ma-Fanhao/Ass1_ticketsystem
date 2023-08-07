@@ -9,6 +9,8 @@ public class TicketSystem {
 
     Passenger passenger = new Passenger();
     Ticket ticket = new Ticket();
+    Ticket ticket_first= new Ticket();
+    Ticket ticket_second= new Ticket();
     Flight flight = new Flight();
     private TicketCollection ticketCollection;
     private FlightCollection flightCollection;
@@ -98,19 +100,11 @@ public class TicketSystem {
 
                     System.out.println("There is special way to go there. And it is transfer way, like above. Way №" + counter);
 
-                    idFirst = depart_to.getFlightID();
+                    counter++;
 
-
-                    idSecond = flightConnectingTwoCities.getFlightID();
-
-
+                    buyTicket(2, 4); //pass two tickets and buy them
                 }
 
-                counter++;
-                System.out.println("idFirst: "+ idFirst);
-                System.out.println("idSecond: "+ idSecond);
-
-                buyTicket(2, 4); //pass two tickets and buy them
 
                 if (counter == 1) {
                     System.out.println("There is no possible variants.");
@@ -243,7 +237,7 @@ public class TicketSystem {
 
             Ticket validTicketfirst = ticketCollection.getTicketInfo(ticket_id_first);
 
-            Ticket validTicketSecond = ticketCollection.getTicketInfo(ticket_id_first);
+            Ticket validTicketSecond = ticketCollection.getTicketInfo(ticket_id_second);
 
 
             System.out.println("Processing...");
@@ -256,7 +250,7 @@ public class TicketSystem {
             } else {
                 flight_id_first = validTicketfirst.getFlight().getFlightID();
 
-                flight_id_second = validTicketfirst.getFlight().getFlightID();
+                flight_id_second = validTicketSecond.getFlight().getFlightID();
 
 
                 try {
@@ -312,8 +306,10 @@ public class TicketSystem {
                         Airplane airplane_first = Airplane.getAirPlaneInfo(airplane_id_first);
                         Airplane airpairplane_second = Airplane.getAirPlaneInfo(airplane_id_second);
 
-                        Ticket ticket_first = ticketCollection.getTicketInfo(ticket_id_first);
-                        Ticket ticket_second = ticketCollection.getTicketInfo(ticket_id_second);
+//                      Ticket ticket_first = ticketCollection.getTicketInfo(ticket_id_first);
+//                      Ticket ticket_second = ticketCollection.getTicketInfo(ticket_id_second);
+                        ticket_first = ticketCollection.getTicketInfo(ticket_id_first);
+                 //       ticket_second = ticketCollection.getTicketInfo(ticket_id_second);
 
                         ticket_first.setPassenger(passenger);
                         ticket_first.setTicket_id(ticket_id_first);
@@ -329,11 +325,11 @@ public class TicketSystem {
                         }
 
                         System.out.println("--*-*-");
-
+                        ticket_second = ticketCollection.getTicketInfo(ticket_id_second);
                         ticket_second.setPassenger(passenger);
                         ticket_second.setTicket_id(ticket_id_second);
-                        ticket_second.setFlight(flight_first);
-                        ticket_second.setPrice(ticket_second.getPrice());
+                        ticket_second.setFlight(flight_second);
+                    //    ticket_second.setPrice(ticket_second.getPrice());
                         ticket_second.setClassVip(ticket_second.getClassVip());
                         ticket_second.setTicketStatus(true);
                         if (ticket_second.getClassVip() == true) {
@@ -342,7 +338,6 @@ public class TicketSystem {
                             airpairplane_second.setEconomySitsNumber(airpairplane_second.getEconomySitsNumber() - 1);
                         }
 
-                        System.out.println("--*-*-");
 
                         int totalPrice = ticket_first.getPrice() + ticket_second.getPrice();
 
