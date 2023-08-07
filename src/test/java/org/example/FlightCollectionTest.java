@@ -147,7 +147,7 @@ public class FlightCollectionTest {
         flightCollection.flights.add(flight2);
 
         // Test case: Matching direct flight
-        Flight result = flightCollection.getFlightInfo("CityA", "CityB");
+        Flight result = flightCollection.getFlightInfo("CityB", "CityA");
         Assertions.assertEquals(flight1, result);
 
         // Test case: No matching direct flight

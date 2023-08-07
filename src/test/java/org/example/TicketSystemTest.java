@@ -31,10 +31,12 @@ public class TicketSystemTest {
     private Passenger dummypassenger;
     private Passenger dummypassenger2;
     private Ticket dummyticket;
+    private Ticket dummyticket2;
 
     private Airplane dummyairplane;
 
     private Flight dummyflight;
+    private Flight dummyflight2;
 
  //   private BuyTicket buyTicket;
 
@@ -63,6 +65,9 @@ public class TicketSystemTest {
 
     Timestamp timestamp1 = Timestamp.valueOf("2023-08-15 00:00:00");
     Timestamp timestamp2 = Timestamp.valueOf("2023-08-20 00:00:00");
+    String dateFrom = "10/08/23 14:25:30";
+    String dateTo = "10/08/23 15:25:30";
+
 
 
 
@@ -118,8 +123,11 @@ public class TicketSystemTest {
                 "932952939@qq.com", "+61481888206", "6666","6666",888);
         dummyairplane = new Airplane(888,"C919",100,50,10);
         dummyflight = new Flight(1,"NewYork","London","LN258","Airline",
-                Timestamp.valueOf(LocalDateTime.now().plusHours(1)),Timestamp.valueOf(LocalDateTime.now().plusDays(1)),dummyairplane);
+                dateFrom,dateTo,dummyairplane);
+        dummyflight2 = new Flight(3,"Zhuhai","NewYork","LN337","Airline",
+                dateFrom,dateTo,dummyairplane);
         dummyticket = new Ticket(2,100,dummyflight,true,dummypassenger);
+        dummyticket2 = new Ticket(4,100,dummyflight2,true,dummypassenger);
 
 
         dummyFlightCollection = new FlightCollection();
@@ -127,9 +135,10 @@ public class TicketSystemTest {
         dummyTicketCollection = new TicketCollection();
 
         dummyFlightCollection.flights.add(dummyflight);
+        dummyFlightCollection.flights.add(dummyflight2);
+
         dummyTicketCollection.tickets.add(dummyticket);
-
-
+        dummyTicketCollection.tickets.add(dummyticket2);
         ticketSystem = new TicketSystem(dummyTicketCollection, dummyFlightCollection, scannerMock);
 
 
@@ -153,7 +162,7 @@ public class TicketSystemTest {
 //    }
 
     @Test
-    public void testChooseTicket() throws Exception {
+    public void testChooseTicketOne() throws Exception {
 
             String input = String.format("Junjia\nZhang\n21\nMan\njzha0424@student.moansh.edu\n+61481888206\nAU\n1\n88888\n123");
             ByteArrayInputStream inputStream = new ByteArrayInputStream(input.getBytes());
@@ -164,7 +173,7 @@ public class TicketSystemTest {
             PrintStream originalOut = System.out;
             System.setOut(new PrintStream(outputStream));
 
-            ticketSystem.chooseTicket("London", "Newyork");
+            ticketSystem.chooseTicket("London", "NewYork");
 
             String actualOutput = outputStream.toString().trim();
 
@@ -228,6 +237,17 @@ public class TicketSystemTest {
             Assertions.assertEquals(123,ticketSystem.passenger.getSecurityCode());
 
 
+    }
+
+    @Test
+    public void testChooseTicketTwo() throws Exception {
+
+        String input = String.format("Junjia\nZhang\n21\nMan\njzha0424@student.moansh.edu\n+61481888206\nAU\n1\n88888\n123");
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(input.getBytes());
+        Scanner in = new Scanner(inputStream);
+        ticketSystem = new TicketSystem(dummyTicketCollection, dummyFlightCollection, in);
+
+        ticketSystem.chooseTicket("London", "Zhuhai");
     }
 
 //    @Test
