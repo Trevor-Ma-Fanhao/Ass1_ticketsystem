@@ -160,7 +160,72 @@ public class TicketSystemTest {
             Scanner in = new Scanner(inputStream);
             ticketSystem = new TicketSystem(dummyTicketCollection, dummyFlightCollection, in);
 
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            PrintStream originalOut = System.out;
+            System.setOut(new PrintStream(outputStream));
+
             ticketSystem.chooseTicket("London", "Newyork");
+
+            String actualOutput = outputStream.toString().trim();
+
+            String expectedOutput = "Enter ID of ticket you want to choose:";
+            Assertions.assertTrue(actualOutput.contains(expectedOutput));
+            expectedOutput = "ticket you choose is :";
+            Assertions.assertTrue(actualOutput.contains(expectedOutput));
+            expectedOutput = "Ticket{";
+            Assertions.assertTrue(actualOutput.contains(expectedOutput));
+            expectedOutput = "2";
+            Assertions.assertTrue(actualOutput.contains(expectedOutput));
+            expectedOutput = "Enter your First Name: ";
+            Assertions.assertTrue(actualOutput.contains(expectedOutput));
+            expectedOutput = "Enter your Second name:";
+            Assertions.assertTrue(actualOutput.contains(expectedOutput));
+            expectedOutput = "Enter your age:";
+            Assertions.assertTrue(actualOutput.contains(expectedOutput));
+            expectedOutput = "Enter your gender: ";
+            Assertions.assertTrue(actualOutput.contains(expectedOutput));
+            expectedOutput = "Enter your e-mail address";
+            Assertions.assertTrue(actualOutput.contains(expectedOutput));
+            expectedOutput = "Enter your phone number (+7):";
+            Assertions.assertTrue(actualOutput.contains(expectedOutput));
+            expectedOutput = "Enter your passport number:";
+            Assertions.assertTrue(actualOutput.contains(expectedOutput));
+            expectedOutput = "Do you want to purchase?";
+            Assertions.assertTrue(actualOutput.contains(expectedOutput));
+            expectedOutput = "111";
+            Assertions.assertTrue(actualOutput.contains(expectedOutput));
+            expectedOutput = "Your bill:";
+            Assertions.assertTrue(actualOutput.contains(expectedOutput));
+            expectedOutput = "Enter your card number:";
+            Assertions.assertTrue(actualOutput.contains(expectedOutput));
+            expectedOutput = "Enter your security code:";
+            Assertions.assertTrue(actualOutput.contains(expectedOutput));
+            expectedOutput = "Success";
+            Assertions.assertTrue(actualOutput.contains(expectedOutput));
+            expectedOutput = "888";
+            Assertions.assertTrue(actualOutput.contains(expectedOutput));
+
+            // 恢复原始的 System.out
+            System.setOut(originalOut);
+
+            Assertions.assertEquals("Junjia",ticketSystem.ticket.getPassenger().getFirstName());
+            Assertions.assertEquals(2,ticketSystem.ticket.getTicket_id());
+            Assertions.assertEquals(1,ticketSystem.ticket.getFlight().getFlightID());
+            Assertions.assertEquals(112,ticketSystem.ticket.getPrice());
+            assertTrue(ticketSystem.ticket.getClassVip());
+            assertTrue(ticketSystem.ticket.ticketStatus());
+//            Assertions.assertEquals(99,Airplane.getAirPlaneInfo(2).getBusinessSitsNumber());
+//            Assertions.assertEquals(50,Airplane.getAirPlaneInfo(2).getEconomySitsNumber());
+            Assertions.assertEquals(1,ticketSystem.ticket.getFlight().getFlightID());
+            Assertions.assertEquals(112,ticketSystem.ticket.getPrice());
+
+
+
+            String output = ticketSystem.passenger.toString();
+            String passengerdOutput = "Passenger{ Fullname= Junjia Zhang, email='jzha0424@student.moansh.edu', phoneNumber='+61481888206', passport='AU'}";
+            Assertions.assertEquals(passengerdOutput, output);
+            Assertions.assertEquals("88888",ticketSystem.passenger.getCardNumber());
+            Assertions.assertEquals(123,ticketSystem.passenger.getSecurityCode());
 
 
     }

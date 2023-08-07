@@ -49,10 +49,10 @@ public class Passenger extends Person
 
 
     public String getFirstName() {
-        return this.firstName;
+        return super.getFirstName();
     }
     public String getSecondName() {
-        return this.secondName;
+        return super.getSecondName();
     }
     public void setSecondName(String secondName) {
         super.setSecondName(secondName);

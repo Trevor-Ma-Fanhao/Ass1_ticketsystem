@@ -15,11 +15,9 @@ public class TicketSystem {
 
     public TicketSystem()
     {
-
     }
     public TicketSystem(TicketCollection ticketCollection,FlightCollection flightCollection,Scanner in){
         this.ticketCollection = ticketCollection;
-
         this.flightCollection = flightCollection;
         this.in = in;
     }
@@ -206,9 +204,10 @@ public class TicketSystem {
                         }
 
                     }
-                    System.out.println("Your bill: " + ticket.getPrice() + "\n");
+                    System.out.println("Your bill: " + ticket.getPrice() );
 
                     System.out.println("Enter your card number:");
+                    String temp = in.nextLine();
                     String cardNumber = "";
                     cardNumber = in.nextLine();
                     passenger.setCardNumber(cardNumber);
