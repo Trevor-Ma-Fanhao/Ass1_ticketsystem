@@ -247,7 +247,90 @@ public class TicketSystemTest {
         Scanner in = new Scanner(inputStream);
         ticketSystem = new TicketSystem(dummyTicketCollection, dummyFlightCollection, in);
 
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out;
+        System.setOut(new PrintStream(outputStream));
+
         ticketSystem.chooseTicket("London", "Zhuhai");
+
+        System.out.println("ticket1: "+ticketSystem.ticket_first.getTicket_id());
+        System.out.println("ticket2: "+ticketSystem.ticket_second.getTicket_id());
+
+        String actualOutput = outputStream.toString().trim();
+        String expectedOutput = "in case there is no direct ticket from city1 to city2";
+        Assertions.assertTrue(actualOutput.contains(expectedOutput));
+        expectedOutput = "There is special way to go there. And it is transfer way, like above.";
+        Assertions.assertTrue(actualOutput.contains(expectedOutput));
+
+        expectedOutput = "There is no possible variants.";
+        Assertions.assertFalse(actualOutput.contains(expectedOutput));
+
+        expectedOutput = "2 4";
+        Assertions.assertTrue(actualOutput.contains(expectedOutput));
+        expectedOutput = "Processing...";
+        Assertions.assertTrue(actualOutput.contains(expectedOutput));
+
+        expectedOutput = "This ticket does not exist.";
+        Assertions.assertFalse(actualOutput.contains(expectedOutput));
+
+        expectedOutput = "Enter your First Name: ";
+        Assertions.assertTrue(actualOutput.contains(expectedOutput));
+        expectedOutput = "Enter your Second name:";
+        Assertions.assertTrue(actualOutput.contains(expectedOutput));
+        expectedOutput = "Enter your age:";
+        Assertions.assertTrue(actualOutput.contains(expectedOutput));
+        expectedOutput = "Enter your gender: ";
+        Assertions.assertTrue(actualOutput.contains(expectedOutput));
+        expectedOutput = "Enter your e-mail address";
+        Assertions.assertTrue(actualOutput.contains(expectedOutput));
+        expectedOutput = "Enter your phone number (+7):";
+        Assertions.assertTrue(actualOutput.contains(expectedOutput));
+        expectedOutput = "Enter your passport number:";
+        Assertions.assertTrue(actualOutput.contains(expectedOutput));
+        expectedOutput = "Do you want to purchase?";
+        Assertions.assertTrue(actualOutput.contains(expectedOutput));
+
+        //String input = String.format("Junjia\nZhang\n21\nMan\njzha0424@student.moansh.edu\n+61481888206\nAU\n1\n88888\n123");
+        Assertions.assertEquals("Junjia",ticketSystem.passenger.getFirstName());
+        Assertions.assertEquals("Zhang",ticketSystem.passenger.getSecondName());
+        Assertions.assertEquals(21,ticketSystem.passenger.getAge());
+        Assertions.assertEquals("jzha0424@student.moansh.edu",ticketSystem.passenger.getEmail());
+        Assertions.assertEquals("+61481888206",ticketSystem.passenger.getPhoneNumber());
+        Assertions.assertEquals("AU",ticketSystem.passenger.getPassport());
+
+
+
+        String ticket_first_str_exp = "Ticket{\n" +
+                "Price=112KZT, \n" +
+                "Flight{Airplane{model=C919', business sits=100', economy sits=50', crew sits=10'}, date to=10/08/23 15:25:30, ', date from='10/08/23 14:25:30', depart from='London', depart to='NewYork', code=LN258', company=Airline'}\n" +
+                "Vip status=true\n" +
+                "Passenger{ Fullname= Junjia Zhang, email='jzha0424@student.moansh.edu', phoneNumber='+61481888206', passport='AU'}\n" +
+                "Ticket was purchased=true\n" +
+                "}";
+        String ticket_second_str_exp = "Ticket{\n" +
+                "Price=100KZT, \n" +
+                "Flight{Airplane{model=C919', business sits=100', economy sits=50', crew sits=10'}, date to=10/08/23 15:25:30, ', date from='10/08/23 14:25:30', depart from='NewYork', depart to='Zhuhai', code=LN337', company=Airline'}\n" +
+                "Vip status=true\n" +
+                "Passenger{ Fullname= Junjia Zhang, email='jzha0424@student.moansh.edu', phoneNumber='+61481888206', passport='AU'}\n" +
+                "Ticket was purchased=true\n" +
+                "}";
+        String ticket_first_str = ticketSystem.ticket_first.toString();
+        String ticket_second_str = ticketSystem.ticket_second.toString();
+        Assertions.assertEquals(ticket_first_str_exp,ticket_first_str);
+        Assertions.assertEquals(ticket_second_str_exp,ticket_second_str);
+
+        expectedOutput = "--*-*-";
+        Assertions.assertTrue(actualOutput.contains(expectedOutput));
+        expectedOutput = "Your bill:";
+        Assertions.assertTrue(actualOutput.contains(expectedOutput));
+        expectedOutput = "Enter your card number:";
+        Assertions.assertTrue(actualOutput.contains(expectedOutput));
+        expectedOutput = "Enter your security code:";
+        Assertions.assertTrue(actualOutput.contains(expectedOutput));
+        expectedOutput = "Success buy two ticket";
+        Assertions.assertTrue(actualOutput.contains(expectedOutput));
+        // 恢复原始的 System.out
+        System.setOut(originalOut);
     }
 
 //    @Test
