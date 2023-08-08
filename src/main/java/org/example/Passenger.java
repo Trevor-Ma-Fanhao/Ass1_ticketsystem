@@ -36,8 +36,6 @@ public class Passenger extends Person
         if ( passport.length() > 9) {
             throw new IllegalArgumentException("Passport number should not exceed 9 characters");
         }
-
-
         this.securityCode=securityCode;
         this.cardNumber=cardNumber;
         this.passport=passport;
