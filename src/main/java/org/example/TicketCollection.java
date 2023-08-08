@@ -26,8 +26,8 @@ public class TicketCollection {
 	}
 	public Ticket getTicketInfo(int ticket_id) {
 		//SELECT a ticket where ticket id = ticket_id
+
 		for (Ticket ticket : tickets) {
-			System.out.println(ticket.getTicket_id());
 			if (ticket.getTicket_id() == ticket_id) {
 				return ticket;
 			}

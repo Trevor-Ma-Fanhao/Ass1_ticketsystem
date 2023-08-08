@@ -2,11 +2,15 @@ package org.example;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
+import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.util.Scanner;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
+import java.io.ByteArrayInputStream;
 
 public class FlightCollectionTest {
     private FlightCollection flightCollection;
@@ -154,9 +158,19 @@ public class FlightCollectionTest {
         result = flightCollection.getFlightInfo("CityA", "CityC");
         Assertions.assertNull(result);
 
-        // Test case: Invalid cities
+
+       //  Test case: Invalid cities
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+            System.setOut(new PrintStream(outputStream));
+
+            String expectOutput = "\nInvalid city name: City name can only contain letters and spaces";
+
             flightCollection.getFlightInfo(null, null);
+            String actualOutput = outputStream.toString().trim();
+            Assertions.assertTrue(actualOutput.contains(expectOutput));
+
         });
 
     }
